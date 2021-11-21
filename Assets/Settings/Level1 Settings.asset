@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1258274064de1915b5db6169fa7a1, type: 3}
   m_Name: Level1 Settings
   m_EditorClassIdentifier: 
-  enemySettings:
-    waves: 1
-    maxAmountOnWave: 5
-    spawnDelay: 0.5
+  waveSettings:
+    startDelay: 1
+    waves: 3
+    maxEnemiesOnWave: 5
+    enemySpawnDelay: 0.5
     waveCooldown: 2
-  difficulty: 0.5
