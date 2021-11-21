@@ -11,11 +11,12 @@ namespace Combat
         [SerializeField] private StaticElectricityMissile staticElectricityMissilePrefab;
         
         [Button()]
-        public override void Attack()
+        public override void Attack(Vector3 pos)
         {
             var arrow = Instantiate(arrowPrefab, transform.position, default);
             arrow.Init(_owner, weaponSettings.damage, targetLayerMask, GetMods(arrow));
-            arrow.SetDirection(_owner.transform.forward);
+            var dir = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
+            arrow.SetDirection(dir);
         }
         
         private List<IProjectileModificator> GetMods(BaseProjectile projectile)

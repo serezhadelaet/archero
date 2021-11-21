@@ -72,7 +72,7 @@ namespace Levels
             _aliveEnemiesCount++;
             _waveSpawnedEnemiesCount++;
             var enemy = _characterFactory.Create(enemyPrefab, GetRandomPos(), default, _level.transform) as Enemy;
-            enemy.Init(_player, _levelSettings.difficulty);
+            enemy.Init(_player);
             enemy.OnDeath += OnEnemyDeath;
             return true;
         }

@@ -7,8 +7,6 @@ namespace Levels
     public class LevelSettings : ScriptableObject
     {
         public WaveSettings waveSettings;
-        [Range(0, 1)]
-        public float difficulty = .5f;
 
         [Serializable]
         public class WaveSettings

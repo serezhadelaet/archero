@@ -5,28 +5,40 @@ namespace Combat.Projectiles
 {
     public class Arrow : BaseProjectile
     {
+        [SerializeField] private float speed = 40;
+        
         private Vector3 _dir;
+        private Vector3 _lastPos;
+        
         public void SetDirection(Vector3 direction)
         {
             _dir = direction;
             transform.forward = direction;
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void DoHit(Collider coll)
         {
-            if (TargetLayerMask == (TargetLayerMask | (1 << other.gameObject.layer)))
-                DoHit(other);
+            var damageable = coll.gameObject.GetComponentInParent<IDamageable>();
+            damageable?.TakeDamage(new HitInfo(this, Damage, Owner, coll, _dir));
+            Destroy(gameObject);
+        }
+        
+        private void Update()
+        {
+            _lastPos = transform.position;
+            transform.position += _dir * (Time.deltaTime * speed);
         }
 
-        private void DoHit(Collider other)
+        private void LateUpdate()
         {
-            var damageable = other.gameObject.GetComponentInParent<IDamageable>();
-            damageable?.TakeDamage(new HitInfo(this, Damage, Owner));
-        }
-
-        private void FixedUpdate()
-        {
-            transform.position += _dir;
+            if (Physics.Linecast(_lastPos, transform.position, TargetLayerMask))
+            {
+                Physics.Raycast(_lastPos, _dir, out var hit, float.MaxValue, TargetLayerMask);
+                if (hit.collider)
+                {
+                    DoHit(hit.collider);
+                }
+            }
         }
     }
 }

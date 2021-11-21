@@ -1,8 +1,10 @@
-﻿namespace Combat
+﻿using UnityEngine;
+
+namespace Combat
 {
     public class StonesThrower : BaseWeapon
     {
-        public override void Attack()
+        public override void Attack(Vector3 pos)
         {
             
         }

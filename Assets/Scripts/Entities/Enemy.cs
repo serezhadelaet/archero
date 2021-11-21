@@ -8,16 +8,12 @@ namespace Entities
         private const float AttackRange = 5;
         private const float AttackCooldown = 1;
         
-        private float _difficulty;
         private Player _player;
         private float _lastAttackTime;
-        
-        protected override float GetArmor() => _difficulty;
 
-        public void Init(Player player, float difficulty)
+        public void Init(Player player)
         {
             _player = player;
-            _difficulty = difficulty;
             
             navAgent.stoppingDistance = Range - AttackRange;
         }

@@ -22,6 +22,16 @@ namespace Entities
 
         private void Update()
         {
+            Moving();
+        }
+
+        private void InstantiateAttack()
+        {
+            
+        }
+        
+        private void Moving()
+        {
             var offset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
             navAgent.SetDestination(transform.position + offset);
         }

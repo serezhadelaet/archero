@@ -26,19 +26,22 @@ namespace Entities
             {
                 _health -= hitInfo.Damage;
                 OnTakeDamage?.Invoke();
-                
-                if (_health <= 0)
-                    OnDeath?.Invoke();
 
+                if (_health <= 0)
+                {
+                    OnDeath?.Invoke();
+                    OnDead();
+                }
+                
                 hitInfo.Projectile.OnHit(this, hitInfo.Damage);
             }
         }
 
+        protected virtual void OnDead() { }
+        
         public void Heal(float hp)
         {
             _health += hp;
         }
-
-        protected virtual float GetArmor() => 0.5f;
     }
 }

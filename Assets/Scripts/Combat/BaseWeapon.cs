@@ -22,6 +22,6 @@ namespace Combat
             Level = level;
         }
 
-        public abstract void Attack();
+        public abstract void Attack(Vector3 pos);
     }
 }
