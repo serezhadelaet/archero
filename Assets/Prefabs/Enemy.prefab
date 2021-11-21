@@ -43,9 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074c404fe0bbf4b44b761a23bd26295a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
   weaponSettings: {fileID: 11400000, guid: e513911344292b04298f2124d6819b9a, type: 2}
 --- !u!1 &3617164627158650827
 GameObject:
@@ -97,6 +94,9 @@ MonoBehaviour:
   weapon: {fileID: 4619000770328469182}
   animations: {fileID: 7623956619795652058}
   ragDoll: {fileID: 9122370447658840304}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!195 &5483035119359666743
 NavMeshAgent:
   m_ObjectHideFlags: 0

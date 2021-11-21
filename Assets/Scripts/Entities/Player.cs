@@ -8,9 +8,8 @@ namespace Entities
         [SerializeField] private float attackingRotationSpeed = 1440;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private float attackRange = 10;
-        [SerializeField] private LayerMask targetLayer;
-
-        private const float _attackCooldown = 0.1f;
+        
+        private const float AttackCooldown = 0.1f;
 
         private int _currentLevel;
         private Joystick _joystick;
@@ -36,12 +35,7 @@ namespace Entities
         {
             Moving();
             InstantiateAttack();
-
-            if (animations.IsAttacking() && IsMoving() || !CanSee(_lastTargetPos))
-            {
-                animations.Attack(false);
-            }
-
+            TryToCancelAttack();
             FollowTarget();
         }
 
@@ -56,34 +50,41 @@ namespace Entities
         {
             if (!CanAttack())
                 return;
-
+            
             _lastAttackTime = Time.time;
             _currentTarget = GetNearestEnemy();
-
-            var shouldAttack = _currentTarget && CanSee(_currentTarget.position);
-
-            animations.Attack(shouldAttack);
+            if (_currentTarget != null)
+            {
+                _lastTargetPos = _currentTarget.position;
+            }
+            animations.Attack(_currentTarget != null);
         }
 
         private void FollowTarget()
         {
-            if (ShouldFollowTarget())
-            {
-                _lastTargetPos = _currentTarget.position;
-                var targetDir = (_lastTargetPos - transform.position).normalized;
-                var targetRot = Quaternion.LookRotation(targetDir);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot,
-                    Time.deltaTime * attackingRotationSpeed);
-            }
+            if (!ShouldFollowTarget())
+                return;
+            
+            _lastTargetPos = _currentTarget.position;
+            var targetDir = (_lastTargetPos - transform.position).normalized;
+            var targetRot = Quaternion.LookRotation(targetDir);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot,
+                Time.deltaTime * attackingRotationSpeed);
         }
 
+        private void TryToCancelAttack()
+        {
+            if (IsMoving() || !CanSee(_lastTargetPos))
+                animations.Attack(false);
+        }
+        
         private void Attack()
         {
-            if (!IsMoving())
-            {
-                transform.LookAt(_lastTargetPos);
-                weapon.Attack(_lastTargetPos);
-            }
+            if (IsMoving())
+                return;
+            
+            transform.LookAt(_lastTargetPos);
+            weapon.Attack(_lastTargetPos);
         }
 
         private Transform GetNearestEnemy()
@@ -98,7 +99,7 @@ namespace Entities
                 if (combatEntity.IsDead())
                     continue;
 
-                if (!CanSee(combatEntity.transform.position))
+                if (!CanSee(coll.transform.position))
                     continue;
 
                 var distance = Vector3.Distance(transform.position, coll.transform.position);
@@ -116,7 +117,7 @@ namespace Entities
         private bool IsMoving() => Input.GetMouseButton(0) || _joystick.Horizontal > 0 || _joystick.Vertical > 0;
 
         private bool CanAttack() => !animations.IsAttacking() && !IsMoving() &&
-                                    Time.time > _lastAttackTime + _attackCooldown;
+                                    Time.time > _lastAttackTime + AttackCooldown;
 
         private bool CanSee(Vector3 pos) => !Physics.Linecast(transform.position, pos, obstacleLayer);
     }

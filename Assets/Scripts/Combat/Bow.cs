@@ -13,7 +13,7 @@ namespace Combat
         public override void Attack(Vector3 pos)
         {
             var arrow = Instantiate(arrowPrefab, transform.position, default);
-            arrow.Init(_owner, weaponSettings.damage, targetLayerMask, GetMods(arrow));
+            arrow.Init(_owner, weaponSettings.damage, _targetLayerMask, GetMods(arrow));
             var dir = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
             arrow.SetDirection(dir);
         }
@@ -38,7 +38,7 @@ namespace Combat
         {
             var staticElectricityMissile = Instantiate(staticElectricityMissilePrefab);
             staticElectricityMissile.gameObject.SetActive(false);
-            staticElectricityMissile.Init(_owner, weaponSettings.damage, targetLayerMask, projectile.Mods);
+            staticElectricityMissile.Init(_owner, weaponSettings.damage, _targetLayerMask, projectile.Mods);
             return new StaticElectricityProjectileModificator(staticElectricityMissile);
         }
     }

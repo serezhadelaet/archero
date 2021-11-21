@@ -11,13 +11,14 @@ namespace Entities
         [SerializeField] protected BaseWeapon weapon;
         [SerializeField] protected CharacterAnimations animations;
         [SerializeField] protected RagDoll ragDoll;
-
+        [SerializeField] protected LayerMask targetLayer;
+        
         private HitInfo _lastHit;
         
         protected override void Awake()
         {
             base.Awake();
-            weapon.Init(this, 0);
+            weapon.Init(this, targetLayer, 0);
         }
 
         public override void TakeDamage(HitInfo hitInfo)
