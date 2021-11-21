@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Combat.Projectiles;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Combat
@@ -9,6 +10,7 @@ namespace Combat
         [SerializeField] private Arrow arrowPrefab;
         [SerializeField] private StaticElectricityMissile staticElectricityMissilePrefab;
         
+        [Button()]
         public override void Attack()
         {
             var arrow = Instantiate(arrowPrefab, transform.position, default);

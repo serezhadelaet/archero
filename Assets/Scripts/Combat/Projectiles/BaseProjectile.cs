@@ -9,6 +9,7 @@ namespace Combat.Projectiles
     {
         [NonSerialized] public LayerMask TargetLayerMask;
         [NonSerialized] public BaseCharacter Owner;
+        [SerializeField] private float destroyIn = 2;
         
         public List<IProjectileModificator> Mods;
         protected float Damage;
@@ -19,6 +20,8 @@ namespace Combat.Projectiles
             Damage = damage;
             TargetLayerMask = layerMask;
             Mods = mods;
+            
+            Destroy(gameObject, destroyIn);
         }
 
         public virtual void OnHit(BaseCombatEntity entity, float damage)

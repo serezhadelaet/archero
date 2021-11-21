@@ -1,6 +1,4 @@
-﻿using System;
-using Entities;
-using Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 
 namespace Combat.Projectiles
@@ -11,6 +9,7 @@ namespace Combat.Projectiles
         public void SetDirection(Vector3 direction)
         {
             _dir = direction;
+            transform.forward = direction;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -21,7 +20,7 @@ namespace Combat.Projectiles
 
         private void DoHit(Collider other)
         {
-            var damageable = other.gameObject.GetComponent<IDamageable>();
+            var damageable = other.gameObject.GetComponentInParent<IDamageable>();
             damageable?.TakeDamage(new HitInfo(this, Damage, Owner));
         }
 
