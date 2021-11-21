@@ -49,6 +49,8 @@ namespace Levels
                 if (ShouldSpawnEnemy())
                     await UniTask.Delay(TimeSpan.FromSeconds(_levelSettings.waveSettings.enemySpawnDelay),
                         DelayType.DeltaTime);
+                
+                await UniTask.Yield();
             }
         }
 
