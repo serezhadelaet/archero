@@ -1,21 +1,23 @@
 ﻿using Entities;
 using UnityEngine;
+using Zenject;
 
 namespace Levels
 {
-    public class CharacterFactory : MonoBehaviour
+    public class CharacterFactory : PlaceholderFactory<BaseCharacter, BaseCharacter>
     {
-        [SerializeField] private Player playerPrefab;
-        [SerializeField] private Enemy enemyPrefab;
-        
-        public Player SpawnPlayer(Vector3 pos, Quaternion rot, Transform parent)
+        public BaseCharacter Create(BaseCharacter prefab, Vector3 pos, Quaternion rot, Transform parent)
         {
-            return Instantiate(playerPrefab, pos, rot, parent);
+            var player = base.Create(prefab);
+            SetTransform(player.transform, pos, rot, parent);
+            return player;
         }
-        
-        public Enemy SpawnEnemy(Vector3 pos, Quaternion rot, Transform parent)
+
+        private void SetTransform(Transform obj, Vector3 pos, Quaternion rot, Transform parent)
         {
-            return Instantiate(enemyPrefab, pos, rot, parent);
+            obj.transform.position = pos;
+            obj.transform.rotation = rot;
+            obj.transform.SetParent(parent, true);
         }
     }
 }

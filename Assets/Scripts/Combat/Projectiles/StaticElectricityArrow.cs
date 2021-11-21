@@ -28,10 +28,14 @@ namespace Combat.Projectiles
 
         public void ApplyMod(BaseProjectile projectile, BaseCombatEntity entity, float damage)
         {
+            _electricityMissile.gameObject.SetActive(true);
             _currentCharges++;
             _affected.Add(entity);
             
             _nextDamage = damage - ((damage / 100f) * DamageMod);
+            
+            entity.TakeDamage(new HitInfo(_electricityMissile, _nextDamage, _electricityMissile.Owner));
+            
             FlyToNextEntity();
         }
 

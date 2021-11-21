@@ -5,7 +5,7 @@ using Combat;
 
 namespace Entities
 {
-    public class BaseCombatEntity : MonoBehaviour, IDamageable
+    public abstract class BaseCombatEntity : MonoBehaviour, IDamageable
     {
         [SerializeField] private float maxHealth = 100;
         
@@ -20,7 +20,7 @@ namespace Entities
             _health = maxHealth;
         }
         
-        public void TakeDamage(HitInfo hitInfo)
+        public virtual void TakeDamage(HitInfo hitInfo)
         {
             if (hitInfo.Damage > 0)
             {
@@ -38,5 +38,7 @@ namespace Entities
         {
             _health += hp;
         }
+
+        protected virtual float GetArmor() => 0.5f;
     }
 }
