@@ -8,19 +8,19 @@ namespace Helpers
     public class CharacterAnimations : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-        
+
         private static readonly int AttackBool = Animator.StringToHash("IsAttacking");
         private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
         private static readonly int OnHit1 = Animator.StringToHash("OnHit1");
         private static readonly int OnHit2 = Animator.StringToHash("OnHit2");
 
         public event Action OnAttacked;
-        
+
         private void OnValidate()
         {
             animator = GetComponent<Animator>();
         }
-        
+
         public void Attack(bool f)
         {
             animator.SetBool(AttackBool, f);
@@ -42,6 +42,7 @@ namespace Helpers
             OnAttacked?.Invoke();
         }
 
-        public bool IsAttacking() => animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+        public bool IsAttacking() =>
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") || animator.GetBool(AttackBool);
     }
 }

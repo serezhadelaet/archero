@@ -51,6 +51,10 @@ MonoBehaviour:
   animations: {fileID: 2249768513637147054}
   ragDoll: {fileID: 0}
   attackingRotationSpeed: 1440
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  attackRange: 10
 --- !u!195 &158418315296699448
 NavMeshAgent:
   m_ObjectHideFlags: 0

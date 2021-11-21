@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using Entities;
+using Interfaces;
 using UnityEngine;
 
 namespace Combat.Projectiles
@@ -31,7 +32,7 @@ namespace Combat.Projectiles
 
         private void LateUpdate()
         {
-            if (Physics.Linecast(_lastPos, transform.position, out var hit, TargetLayerMask))
+            if (_lastPos != default && Physics.Linecast(_lastPos, transform.position, out var hit, TargetLayerMask))
             {
                 if (hit.collider)
                 {

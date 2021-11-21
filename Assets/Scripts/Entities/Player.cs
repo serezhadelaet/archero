@@ -8,9 +8,10 @@ namespace Entities
         [SerializeField] private float attackingRotationSpeed = 1440;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private float attackRange = 10;
-        
+        [SerializeField] private LayerMask targetLayer;
+
         private const float _attackCooldown = 0.1f;
-        
+
         private int _currentLevel;
         private Joystick _joystick;
         private Collider[] _collBuff = new Collider[30];
@@ -33,18 +34,40 @@ namespace Entities
 
         private void Update()
         {
-            var joystickOffset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
+            Moving();
+            InstantiateAttack();
 
-            Moving(joystickOffset);
-            InstantiateAttack(joystickOffset.magnitude);
-
-            if (joystickOffset.magnitude > 0)
+            if (animations.IsAttacking() && IsMoving() || !CanSee(_lastTargetPos))
             {
                 animations.Attack(false);
             }
-            
-            if (!Input.GetMouseButton(0) && animations.IsAttacking()
-                && _currentTarget)
+
+            FollowTarget();
+        }
+
+        private void Moving()
+        {
+            var offset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
+            navAgent.SetDestination(transform.position + offset);
+            animations.SetRunSpeed(offset.magnitude);
+        }
+
+        private void InstantiateAttack()
+        {
+            if (!CanAttack())
+                return;
+
+            _lastAttackTime = Time.time;
+            _currentTarget = GetNearestEnemy();
+
+            var shouldAttack = _currentTarget && CanSee(_currentTarget.position);
+
+            animations.Attack(shouldAttack);
+        }
+
+        private void FollowTarget()
+        {
+            if (ShouldFollowTarget())
             {
                 _lastTargetPos = _currentTarget.position;
                 var targetDir = (_lastTargetPos - transform.position).normalized;
@@ -54,27 +77,9 @@ namespace Entities
             }
         }
 
-        private void Moving(Vector3 offset)
-        {
-            navAgent.SetDestination(transform.position + offset);
-            animations.SetRunSpeed(offset.magnitude);
-        }
-
-        private void InstantiateAttack(float magnitude)
-        {
-            if (!CanAttack() || magnitude >= 0.1f || Time.time < _lastAttackTime + _attackCooldown)
-                return;
-            _lastAttackTime = Time.time;
-            _currentTarget = GetNearestEnemy();
-            if (_currentTarget)
-            {
-                animations.Attack(true);
-            }
-        }
-
         private void Attack()
         {
-            if (animations.IsAttacking() && !Input.GetMouseButton(0))
+            if (!IsMoving())
             {
                 transform.LookAt(_lastTargetPos);
                 weapon.Attack(_lastTargetPos);
@@ -83,7 +88,7 @@ namespace Entities
 
         private Transform GetNearestEnemy()
         {
-            var count = Physics.OverlapSphereNonAlloc(transform.position, attackRange, _collBuff, LayerMask.GetMask("Enemy"));
+            var count = Physics.OverlapSphereNonAlloc(transform.position, attackRange, _collBuff, targetLayer);
             var minDistance = float.MaxValue;
             Transform nearestEntity = null;
             for (int i = 0; i < count; i++)
@@ -93,9 +98,9 @@ namespace Entities
                 if (combatEntity.IsDead())
                     continue;
 
-                if (Physics.Linecast(transform.position, combatEntity.transform.position, obstacleLayer))
+                if (!CanSee(combatEntity.transform.position))
                     continue;
-                
+
                 var distance = Vector3.Distance(transform.position, coll.transform.position);
                 if (distance < minDistance)
                 {
@@ -107,6 +112,12 @@ namespace Entities
             return nearestEntity;
         }
 
-        private bool CanAttack() => !Input.GetMouseButton(0) && !animations.IsAttacking();
+        private bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && _currentTarget;
+        private bool IsMoving() => Input.GetMouseButton(0) || _joystick.Horizontal > 0 || _joystick.Vertical > 0;
+
+        private bool CanAttack() => !animations.IsAttacking() && !IsMoving() &&
+                                    Time.time > _lastAttackTime + _attackCooldown;
+
+        private bool CanSee(Vector3 pos) => !Physics.Linecast(transform.position, pos, obstacleLayer);
     }
 }

@@ -10,7 +10,6 @@ namespace Combat
         [SerializeField] private Arrow arrowPrefab;
         [SerializeField] private StaticElectricityMissile staticElectricityMissilePrefab;
         
-        [Button()]
         public override void Attack(Vector3 pos)
         {
             var arrow = Instantiate(arrowPrefab, transform.position, default);
