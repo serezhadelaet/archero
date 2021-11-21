@@ -48,6 +48,9 @@ MonoBehaviour:
   maxHealth: 100
   navAgent: {fileID: 158418315296699448}
   weapon: {fileID: 6882395516692546765}
+  animations: {fileID: 2249768513637147054}
+  ragDoll: {fileID: 0}
+  attackingRotationSpeed: 1440
 --- !u!195 &158418315296699448
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -133,11 +136,25 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 5b5c13a9fa601e04cb66425e2be143ba, type: 2}
+    - target: {fileID: 95126495896396236, guid: ddafa5fb4e3e8fb4aa97a7ea8e8b72d6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddafa5fb4e3e8fb4aa97a7ea8e8b72d6, type: 3}
+--- !u!1 &2622261659731809906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1404823412658210, guid: ddafa5fb4e3e8fb4aa97a7ea8e8b72d6, type: 3}
+  m_PrefabInstance: {fileID: 2621333284558931536}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2625355072887685218 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4497262683522610, guid: ddafa5fb4e3e8fb4aa97a7ea8e8b72d6, type: 3}
+  m_PrefabInstance: {fileID: 2621333284558931536}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2679973489962313628 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95126495896396236, guid: ddafa5fb4e3e8fb4aa97a7ea8e8b72d6, type: 3}
   m_PrefabInstance: {fileID: 2621333284558931536}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2625732856866177700 stripped
@@ -145,6 +162,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4682428117386484, guid: ddafa5fb4e3e8fb4aa97a7ea8e8b72d6, type: 3}
   m_PrefabInstance: {fileID: 2621333284558931536}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2249768513637147054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2622261659731809906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d813a18626743e7b51b79ad4d23c0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2679973489962313628}
 --- !u!1001 &3553580065262685558
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ namespace Entities
 {
     public class Player : BaseCharacter
     {
+        [SerializeField] private float attackingRotationSpeed = 1440;
+
         private int _currentLevel;
         private Joystick _joystick;
         private Collider[] _collBuff = new Collider[30];
@@ -18,8 +20,6 @@ namespace Entities
             animations.OnAttacked += Attack;
         }
 
-        
-
         private void OnLevelUp()
         {
             _currentLevel++;
@@ -31,9 +31,13 @@ namespace Entities
             Moving();
             InstantiateAttack();
 
-            if (animations.IsAttacking())
+            if (animations.IsAttacking() && _currentTarget)
             {
-                
+                _lastTargetPos = _currentTarget.position;
+                var targetDir = (_lastTargetPos - transform.position).normalized;
+                var targetRot = Quaternion.LookRotation(targetDir);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot,
+                    Time.deltaTime * attackingRotationSpeed);
             }
         }
 
@@ -43,7 +47,7 @@ namespace Entities
             navAgent.SetDestination(transform.position + offset);
             animations.SetRunSpeed(_joystick.Horizontal + _joystick.Vertical);
         }
-        
+
         private void InstantiateAttack()
         {
             if (!CanAttack())
@@ -54,13 +58,13 @@ namespace Entities
                 animations.Attack();
             }
         }
-        
+
         private void Attack()
         {
             transform.LookAt(_lastTargetPos);
             weapon.Attack(_lastTargetPos);
         }
-        
+
         private Transform GetNearestEnemy()
         {
             var count = Physics.OverlapSphereNonAlloc(transform.position, 5, _collBuff, LayerMask.GetMask("Enemy"));
@@ -72,7 +76,7 @@ namespace Entities
                 var combatEntity = coll.GetComponentInParent<BaseCombatEntity>();
                 if (combatEntity.IsDead())
                     continue;
-                
+
                 var distance = Vector3.Distance(transform.position, coll.transform.position);
                 if (distance < minDistance)
                 {
@@ -83,7 +87,7 @@ namespace Entities
 
             return nearestEntity;
         }
-        
+
         private bool CanAttack() => !Input.GetMouseButton(0) && !animations.IsAttacking();
     }
 }

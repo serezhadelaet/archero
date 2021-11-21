@@ -29,6 +29,7 @@ namespace Entities
         protected override void OnDead()
         {
             base.OnDead();
+            navAgent.enabled = false;
             ragDoll.SetAsRagDoll(true, _lastHit);
         }
     }

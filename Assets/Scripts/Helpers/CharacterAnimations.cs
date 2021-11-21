@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace Helpers
 {
+    [RequireComponent(typeof(Animator))]
     public class CharacterAnimations : MonoBehaviour
     {
         [SerializeField] private Animator animator;
@@ -14,6 +15,11 @@ namespace Helpers
         private static readonly int OnHit2 = Animator.StringToHash("OnHit2");
 
         public event Action OnAttacked;
+        
+        private void OnValidate()
+        {
+            animator = GetComponent<Animator>();
+        }
         
         public void Attack()
         {
