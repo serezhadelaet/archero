@@ -9,8 +9,10 @@ namespace Entities
     {
         [SerializeField] protected NavMeshAgent navAgent;
         [SerializeField] protected BaseWeapon weapon;
-        [SerializeField] private CharacterAnimations characterAnimations;
-        [SerializeField] private RagDoll ragDoll;
+        [SerializeField] protected CharacterAnimations animations;
+        [SerializeField] protected RagDoll ragDoll;
+
+        private HitInfo _lastHit;
         
         protected override void Awake()
         {
@@ -18,10 +20,16 @@ namespace Entities
             weapon.Init(this, 0);
         }
 
+        public override void TakeDamage(HitInfo hitInfo)
+        {
+            base.TakeDamage(hitInfo);
+            _lastHit = hitInfo;
+        }
+
         protected override void OnDead()
         {
             base.OnDead();
-            
+            ragDoll.SetAsRagDoll(true, _lastHit);
         }
     }
 }

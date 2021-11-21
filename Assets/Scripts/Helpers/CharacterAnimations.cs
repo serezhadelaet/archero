@@ -35,5 +35,7 @@ namespace Helpers
         {
             OnAttacked?.Invoke();
         }
+
+        public bool IsAttacking() => animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
     }
 }
