@@ -6,12 +6,17 @@ namespace Entities
     public class Player : BaseCharacter
     {
         [SerializeField] private float attackingRotationSpeed = 1440;
-
+        [SerializeField] private LayerMask obstacleLayer;
+        [SerializeField] private float attackRange = 10;
+        
+        private const float _attackCooldown = 0.1f;
+        
         private int _currentLevel;
         private Joystick _joystick;
         private Collider[] _collBuff = new Collider[30];
         private Transform _currentTarget;
         private Vector3 _lastTargetPos;
+        private float _lastAttackTime;
 
         [Inject]
         private void Construct(Joystick joystick)
@@ -28,10 +33,18 @@ namespace Entities
 
         private void Update()
         {
-            Moving();
-            InstantiateAttack();
+            var joystickOffset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
 
-            if (animations.IsAttacking() && _currentTarget)
+            Moving(joystickOffset);
+            InstantiateAttack(joystickOffset.magnitude);
+
+            if (joystickOffset.magnitude > 0)
+            {
+                animations.Attack(false);
+            }
+            
+            if (!Input.GetMouseButton(0) && animations.IsAttacking()
+                && _currentTarget)
             {
                 _lastTargetPos = _currentTarget.position;
                 var targetDir = (_lastTargetPos - transform.position).normalized;
@@ -41,33 +54,36 @@ namespace Entities
             }
         }
 
-        private void Moving()
+        private void Moving(Vector3 offset)
         {
-            var offset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
             navAgent.SetDestination(transform.position + offset);
-            animations.SetRunSpeed(_joystick.Horizontal + _joystick.Vertical);
+            animations.SetRunSpeed(offset.magnitude);
         }
 
-        private void InstantiateAttack()
+        private void InstantiateAttack(float magnitude)
         {
-            if (!CanAttack())
+            if (!CanAttack() || magnitude >= 0.1f || Time.time < _lastAttackTime + _attackCooldown)
                 return;
+            _lastAttackTime = Time.time;
             _currentTarget = GetNearestEnemy();
             if (_currentTarget)
             {
-                animations.Attack();
+                animations.Attack(true);
             }
         }
 
         private void Attack()
         {
-            transform.LookAt(_lastTargetPos);
-            weapon.Attack(_lastTargetPos);
+            if (animations.IsAttacking() && !Input.GetMouseButton(0))
+            {
+                transform.LookAt(_lastTargetPos);
+                weapon.Attack(_lastTargetPos);
+            }
         }
 
         private Transform GetNearestEnemy()
         {
-            var count = Physics.OverlapSphereNonAlloc(transform.position, 5, _collBuff, LayerMask.GetMask("Enemy"));
+            var count = Physics.OverlapSphereNonAlloc(transform.position, attackRange, _collBuff, LayerMask.GetMask("Enemy"));
             var minDistance = float.MaxValue;
             Transform nearestEntity = null;
             for (int i = 0; i < count; i++)
@@ -77,6 +93,9 @@ namespace Entities
                 if (combatEntity.IsDead())
                     continue;
 
+                if (Physics.Linecast(transform.position, combatEntity.transform.position, obstacleLayer))
+                    continue;
+                
                 var distance = Vector3.Distance(transform.position, coll.transform.position);
                 if (distance < minDistance)
                 {

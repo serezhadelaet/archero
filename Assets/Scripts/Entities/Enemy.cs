@@ -20,6 +20,9 @@ namespace Entities
         
         private void Update()
         {
+            if (IsDead())
+                return;
+            
             var distanceToPlayer = Vector3.Distance(_player.transform.position, transform.position);
             MoveToPlayer(distanceToPlayer);
             AttackPlayer(distanceToPlayer);
@@ -36,7 +39,6 @@ namespace Entities
             if (distance < AttackRange && Time.time > _lastAttackTime + AttackCooldown)
             {
                 _lastAttackTime = Time.time;
-                Debug.Log(name + " Attack");
             }
         }
     }

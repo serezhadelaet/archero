@@ -31,9 +31,8 @@ namespace Combat.Projectiles
 
         private void LateUpdate()
         {
-            if (Physics.Linecast(_lastPos, transform.position, TargetLayerMask))
+            if (Physics.Linecast(_lastPos, transform.position, out var hit, TargetLayerMask))
             {
-                Physics.Raycast(_lastPos, _dir, out var hit, float.MaxValue, TargetLayerMask);
                 if (hit.collider)
                 {
                     DoHit(hit.collider);

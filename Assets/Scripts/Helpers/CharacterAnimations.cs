@@ -9,7 +9,7 @@ namespace Helpers
     {
         [SerializeField] private Animator animator;
         
-        private static readonly int AttackTrigger = Animator.StringToHash("Attack");
+        private static readonly int AttackBool = Animator.StringToHash("IsAttacking");
         private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
         private static readonly int OnHit1 = Animator.StringToHash("OnHit1");
         private static readonly int OnHit2 = Animator.StringToHash("OnHit2");
@@ -21,9 +21,9 @@ namespace Helpers
             animator = GetComponent<Animator>();
         }
         
-        public void Attack()
+        public void Attack(bool f)
         {
-            animator.SetTrigger(AttackTrigger);
+            animator.SetBool(AttackBool, f);
         }
 
         public void SetRunSpeed(float speed)
