@@ -24,6 +24,7 @@ namespace Entities
         public override void TakeDamage(HitInfo hitInfo)
         {
             base.TakeDamage(hitInfo);
+            animations.OnHit();
             _lastHit = hitInfo;
         }
 

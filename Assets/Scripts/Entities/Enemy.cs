@@ -32,6 +32,7 @@ namespace Entities
         {
             if (distance < Range)
                 navAgent.SetDestination(_player.transform.position);
+            animations.SetRunSpeed(navAgent.velocity.magnitude);
         }
 
         private void AttackPlayer(float distance)
