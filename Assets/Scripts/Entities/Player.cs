@@ -14,7 +14,7 @@ namespace Entities
         private int _currentLevel;
         private Joystick _joystick;
         private Collider[] _collBuff = new Collider[30];
-        private Transform _currentTarget;
+        private BaseCombatEntity _currentTarget;
         private Vector3 _lastTargetPos;
         private float _lastAttackTime;
 
@@ -48,14 +48,16 @@ namespace Entities
 
         private void InstantiateAttack()
         {
+            var nearestEnemy = GetNearestEnemy();
+            if (nearestEnemy != null)
+                _currentTarget = nearestEnemy;
             if (!CanAttack())
                 return;
             
             _lastAttackTime = Time.time;
-            _currentTarget = GetNearestEnemy();
             if (_currentTarget != null)
             {
-                _lastTargetPos = _currentTarget.position;
+                _lastTargetPos = _currentTarget.transform.position;
             }
             animations.Attack(_currentTarget != null);
         }
@@ -65,7 +67,7 @@ namespace Entities
             if (!ShouldFollowTarget())
                 return;
             
-            _lastTargetPos = _currentTarget.position;
+            _lastTargetPos = _currentTarget.transform.position;
             var targetDir = (_lastTargetPos - transform.position).normalized;
             var targetRot = Quaternion.LookRotation(targetDir);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot,
@@ -74,7 +76,7 @@ namespace Entities
 
         private void TryToCancelAttack()
         {
-            if (IsMoving() || !CanSee(_lastTargetPos))
+            if (IsMoving() || !CanSee(_lastTargetPos) || (_currentTarget != null && _currentTarget.IsDead()))
                 animations.Attack(false);
         }
         
@@ -87,11 +89,11 @@ namespace Entities
             weapon.Attack(_lastTargetPos);
         }
 
-        private Transform GetNearestEnemy()
+        private BaseCombatEntity GetNearestEnemy()
         {
             var count = Physics.OverlapSphereNonAlloc(transform.position, attackRange, _collBuff, targetLayer);
             var minDistance = float.MaxValue;
-            Transform nearestEntity = null;
+            BaseCombatEntity nearestEntity = null;
             for (int i = 0; i < count; i++)
             {
                 var coll = _collBuff[i];
@@ -106,7 +108,7 @@ namespace Entities
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    nearestEntity = combatEntity.transform;
+                    nearestEntity = combatEntity;
                 }
             }
 
