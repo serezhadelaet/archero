@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using Helpers;
+using UnityEngine;
 
 namespace Entities
 {
     public class Enemy : BaseCharacter
     {
+        [SerializeField] private PlayerProgressionFollower playerProgressionFollower;
+        
         private const float Range = 10;
         private const float AttackRange = 5;
         private const float AttackCooldown = 1;
@@ -41,6 +44,12 @@ namespace Entities
             {
                 _lastAttackTime = Time.time;
             }
+        }
+
+        protected override void OnDead()
+        {
+            base.OnDead();
+            playerProgressionFollower.OnProgress();
         }
     }
 }

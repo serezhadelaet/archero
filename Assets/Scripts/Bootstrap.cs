@@ -1,5 +1,6 @@
 using Entities;
 using Levels;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,7 @@ public class Bootstrap : MonoInstaller
 {
     [SerializeField] private Joystick joystick;
     [SerializeField] private LevelLoader levelLoader;
+    [SerializeField] private GameOverlay gameOverlay;
     
     public override void InstallBindings()
     {
@@ -14,6 +16,7 @@ public class Bootstrap : MonoInstaller
         BindCharacterFactory();
         BindLevelsFactory();
         BindLevelLoader();
+        BindGameOverlay();
     }
 
     private void BindLevelLoader()
@@ -21,6 +24,14 @@ public class Bootstrap : MonoInstaller
         Container
             .Bind<LevelLoader>()
             .FromInstance(levelLoader)
+            .AsSingle();
+    }
+    
+    private void BindGameOverlay()
+    {
+        Container
+            .Bind<GameOverlay>()
+            .FromInstance(gameOverlay)
             .AsSingle();
     }
 

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Helpers;
+using NaughtyAttributes;
+using UI;
+using UnityEngine;
 using Zenject;
 
 namespace Entities
@@ -8,10 +11,11 @@ namespace Entities
         [SerializeField] private float attackingRotationSpeed = 1440;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private float attackRange = 10;
+        [SerializeField] private ParticleSystem healingEffect;
+        [SerializeField] private PlayerProgressionFollower playerProgression;
         
         private const float AttackCooldown = 0.1f;
 
-        private int _currentLevel;
         private Joystick _joystick;
         private Collider[] _collBuff = new Collider[30];
         private BaseCombatEntity _currentTarget;
@@ -19,16 +23,16 @@ namespace Entities
         private float _lastAttackTime;
 
         [Inject]
-        private void Construct(Joystick joystick)
+        private void Construct(Joystick joystick, GameOverlay gameOverlay)
         {
             _joystick = joystick;
             animations.OnAttacked += Attack;
         }
 
-        private void OnLevelUp()
+        public override void Heal(float hp)
         {
-            _currentLevel++;
-            weapon.SetLevel(_currentLevel);
+            base.Heal(hp);
+            healingEffect.Play();
         }
 
         private void Update()
@@ -86,6 +90,7 @@ namespace Entities
                 return;
             
             transform.LookAt(_lastTargetPos);
+            weapon.SetLevel(playerProgression.GetLevel());
             weapon.Attack(_lastTargetPos);
         }
 

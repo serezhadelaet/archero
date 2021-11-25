@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f280bed39fbe4a33b139b65f9b160917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  combatSettings: {fileID: 11400000, guid: 9b7ec94e8b9b7d84599c058e87944d6c, type: 2}
   navAgent: {fileID: 5483035119359666743}
   weapon: {fileID: 4619000770328469182}
   animations: {fileID: 7623956619795652058}
@@ -97,6 +97,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
+  playerProgressionFollower: {fileID: 11400000, guid: ce42a41c7d0efda439b9258363db2a06, type: 2}
 --- !u!195 &5483035119359666743
 NavMeshAgent:
   m_ObjectHideFlags: 0

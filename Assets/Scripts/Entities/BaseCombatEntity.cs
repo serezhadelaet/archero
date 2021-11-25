@@ -7,7 +7,7 @@ namespace Entities
 {
     public abstract class BaseCombatEntity : MonoBehaviour, IDamageable
     {
-        [SerializeField] private float maxHealth = 100;
+        [SerializeField] private CombatEntitySettings combatSettings;
         
         public event Action OnDeath;
         public event Action OnTakeDamage;
@@ -17,7 +17,7 @@ namespace Entities
         
         protected virtual void Awake()
         {
-            _health = maxHealth;
+            _health = combatSettings.health;
         }
         
         public virtual void TakeDamage(HitInfo hitInfo)
@@ -39,8 +39,9 @@ namespace Entities
 
         protected virtual void OnDead() { }
         
-        public void Heal(float hp)
+        public virtual void Heal(float hp)
         {
+            Debug.Log("On heal " + name + " " + hp);
             _health += hp;
         }
     }

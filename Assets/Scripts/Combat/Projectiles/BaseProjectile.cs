@@ -11,7 +11,7 @@ namespace Combat.Projectiles
         [NonSerialized] public BaseCharacter Owner;
         [SerializeField] private float destroyIn = 2;
         
-        public List<IProjectileModificator> Mods;
+        public List<IProjectileModificator> Mods = new List<IProjectileModificator>();
         protected float Damage;
         
         public void Init(BaseCharacter owner, float damage, LayerMask layerMask, List<IProjectileModificator> mods)

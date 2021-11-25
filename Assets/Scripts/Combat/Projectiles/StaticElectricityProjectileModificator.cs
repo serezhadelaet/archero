@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks.Triggers;
 using Entities;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace Combat.Projectiles
         private const float DamageMod = 35;
         private const float Radius = 10;
 
-        private Collider[] _collBuf = new Collider[30];
+        private Collider[] _collBuf = new Collider[150];
         private StaticElectricityMissile _electricityMissile;
         
         private float _nextDamage;
@@ -29,6 +28,7 @@ namespace Combat.Projectiles
         public void ApplyMod(BaseProjectile projectile, BaseCombatEntity entity, float damage)
         {
             _electricityMissile.gameObject.SetActive(true);
+            _electricityMissile.transform.position = projectile.transform.position;
             _currentCharges++;
             _affected.Add(entity);
             
@@ -43,7 +43,10 @@ namespace Combat.Projectiles
         {
             var nextNearest = GetNearestCharacter();
             if (nextNearest != null)
+            {
+                _affected.Add(nextNearest);
                 _electricityMissile.SetNextTarget(nextNearest);
+            }
         }
 
         private void ElectricityMissileOnTargetDead()
@@ -55,10 +58,14 @@ namespace Combat.Projectiles
         {
             target.TakeDamage(new HitInfo(_electricityMissile, _nextDamage, _electricityMissile.Owner));
             _currentCharges++;
-            if (_currentCharges < ChargesAmount)
+            if (ChargesAmount >= _currentCharges)
             {
                 _nextDamage = _nextDamage - ((_nextDamage / 100f) * DamageMod);
                 FlyToNextEntity();
+            }
+            else
+            {
+                _electricityMissile.Kill();
             }
         }
 
@@ -71,10 +78,9 @@ namespace Combat.Projectiles
             for (int i = 0; i < count; i++)
             {
                 var coll = _collBuf[i];
-                var combatEntity = coll.GetComponent<BaseCombatEntity>();
+                var combatEntity = coll.GetComponentInParent<BaseCombatEntity>();
                 if (_affected.Contains(combatEntity))
                     continue;
-                
                 var distance = Vector3.Distance(lastPos, coll.transform.position);
                 if (distance < minDistance)
                 {

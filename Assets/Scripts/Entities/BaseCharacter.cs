@@ -18,7 +18,7 @@ namespace Entities
         protected override void Awake()
         {
             base.Awake();
-            weapon.Init(this, targetLayer, 0);
+            weapon.Init(this, targetLayer);
         }
 
         public override void TakeDamage(HitInfo hitInfo)
