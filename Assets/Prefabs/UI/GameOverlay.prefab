@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 1647326303103025768}
-  expText: {fileID: 8379444522918351284}
+  lvlText: {fileID: 8379444522918351284}
 --- !u!1 &5414380789156244871
 GameObject:
   m_ObjectHideFlags: 0

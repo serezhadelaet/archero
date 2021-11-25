@@ -1,5 +1,4 @@
 ﻿using Helpers;
-using NaughtyAttributes;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -13,10 +12,10 @@ namespace Entities
         [SerializeField] private float attackRange = 10;
         [SerializeField] private ParticleSystem healingEffect;
         [SerializeField] private PlayerProgressionFollower playerProgression;
+        [SerializeField] private PlayerMovement movement;
         
         private const float AttackCooldown = 0.1f;
-
-        private Joystick _joystick;
+        
         private Collider[] _collBuff = new Collider[30];
         private BaseCombatEntity _currentTarget;
         private Vector3 _lastTargetPos;
@@ -25,8 +24,18 @@ namespace Entities
         [Inject]
         private void Construct(Joystick joystick, GameOverlay gameOverlay)
         {
-            _joystick = joystick;
             animations.OnAttacked += Attack;
+
+            movement.Init(joystick, navAgent, animations);
+            SetupOverlay(gameOverlay);
+        }
+
+        private void SetupOverlay(GameOverlay gameOverlay)
+        {
+            gameOverlay.UpdateHealth((int)Health);
+            gameOverlay.UpdateLevel(playerProgression.GetLevel());
+            OnHealthChanged += (health) => gameOverlay.UpdateHealth((int) health);
+            playerProgression.OnProgress += () => gameOverlay.UpdateLevel(playerProgression.GetLevel());
         }
 
         public override void Heal(float hp)
@@ -37,19 +46,11 @@ namespace Entities
 
         private void Update()
         {
-            Moving();
             InstantiateAttack();
             TryToCancelAttack();
             FollowTarget();
         }
-
-        private void Moving()
-        {
-            var offset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
-            navAgent.SetDestination(transform.position + offset);
-            animations.SetRunSpeed(offset.magnitude);
-        }
-
+        
         private void InstantiateAttack()
         {
             var nearestEnemy = GetNearestEnemy();
@@ -63,6 +64,7 @@ namespace Entities
             {
                 _lastTargetPos = _currentTarget.transform.position;
             }
+            
             animations.Attack(_currentTarget != null);
         }
 
@@ -121,7 +123,7 @@ namespace Entities
         }
 
         private bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && _currentTarget;
-        private bool IsMoving() => Input.GetMouseButton(0) || _joystick.Horizontal > 0 || _joystick.Vertical > 0;
+        private bool IsMoving() => Input.GetMouseButton(0);
 
         private bool CanAttack() => !animations.IsAttacking() && !IsMoving() &&
                                     Time.time > _lastAttackTime + AttackCooldown;

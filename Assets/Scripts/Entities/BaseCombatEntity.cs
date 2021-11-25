@@ -10,24 +10,36 @@ namespace Entities
         [SerializeField] private CombatEntitySettings combatSettings;
         
         public event Action OnDeath;
-        public event Action OnTakeDamage;
+        public event Action<float> OnHealthChanged;
         public bool IsDead() => _health <= 0;
+        protected float Health
+        {
+            get => _health;
+            set
+            {
+                _health = value;
+                OnHealthChanged?.Invoke(_health);
+            }
+        }
 
+        private float _maxHealth;
         private float _health;
         
         protected virtual void Awake()
         {
-            _health = combatSettings.health;
+            _maxHealth = combatSettings.health;
+            Health = _maxHealth;
         }
         
         public virtual void TakeDamage(HitInfo hitInfo)
         {
+            if (IsDead())
+                return;
             if (hitInfo.Damage > 0)
             {
-                _health -= hitInfo.Damage;
-                OnTakeDamage?.Invoke();
+                Health = Mathf.Max(_health - hitInfo.Damage, 0);
 
-                if (_health <= 0)
+                if (Health <= 0)
                 {
                     OnDeath?.Invoke();
                     OnDead();
@@ -41,8 +53,7 @@ namespace Entities
         
         public virtual void Heal(float hp)
         {
-            Debug.Log("On heal " + name + " " + hp);
-            _health += hp;
+            Health = Mathf.Min(_health + hp, _maxHealth);
         }
     }
 }

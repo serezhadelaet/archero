@@ -1,17 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Helpers
 {
     [CreateAssetMenu]
     public class PlayerProgressionFollower : ScriptableObject
     {
+        [SerializeField] private int maxLevel = 3;
+        
+        public event Action OnProgress;
+        
         private int _expPoints;
         
-        public void OnProgress()
+        public void Progress()
         {
             _expPoints++;
+            OnProgress?.Invoke();
         }
 
-        public int GetLevel() => (_expPoints / 2) + 1;
+        private void OnEnable()
+        {
+            _expPoints = 0;
+        }
+
+        public int GetLevel() => Mathf.Min(maxLevel, Mathf.FloorToInt(_expPoints / 2f) + 1);
     }
 }

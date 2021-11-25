@@ -34,7 +34,8 @@ namespace Helpers
             SetKinematicRigidBodies(!f);
             animator.enabled = !f;
             
-            lastHit.HitCollider.GetComponent<Rigidbody>().AddForce(lastHit.ForceDir * forceMod);
+            if (lastHit.HitCollider)
+                lastHit.HitCollider.GetComponent<Rigidbody>().AddForce(lastHit.ForceDir * forceMod);
         }
 
         private void SetAsRagDoll(bool f)

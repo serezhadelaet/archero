@@ -14,12 +14,12 @@ namespace Combat
         {
             switch (level)
             {
-                case 1:
+                case 2:
                     return new List<IProjectileModificator>
                     {
                         GetStaticElectricityProjectileModificator(owner, projectile, weaponSettings, targetLayerMask)
                     };
-                case 2:
+                case 3:
                     return new List<IProjectileModificator>
                     {
                         GetStaticElectricityProjectileModificator(owner, projectile, weaponSettings, targetLayerMask),

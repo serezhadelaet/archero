@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace UI
@@ -9,9 +8,14 @@ namespace UI
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI lvlText;
 
-        private void Awake()
+        public void UpdateLevel(int level)
         {
-            
+            lvlText.text = "Player level: " + level;
+        }
+        
+        public void UpdateHealth(int health)
+        {
+            healthText.text = "Player HP: " + health;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Entities
         protected override void OnDead()
         {
             base.OnDead();
-            playerProgressionFollower.OnProgress();
+            playerProgressionFollower.Progress();
         }
     }
 }
