@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Combat.Projectiles
 {
-    public class StraightDirectionMoving : MonoBehaviour
+    public class StraightMovingDamager : MonoBehaviour
     {
         [SerializeField] private float speed = 40;
 

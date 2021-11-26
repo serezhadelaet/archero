@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyIn: 2
-  straightDirectionMoving: {fileID: 5982242819709122299}
+  straightMovingDamager: {fileID: 5982242819709122299}
 --- !u!114 &5982242819709122299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +130,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
+  IsStopped: 0

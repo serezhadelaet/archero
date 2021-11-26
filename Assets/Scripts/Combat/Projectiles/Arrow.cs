@@ -5,7 +5,7 @@ namespace Combat.Projectiles
 {
     public class Arrow : BaseProjectile
     {
-        [SerializeField] private StraightDirectionMoving straightDirectionMoving;
+        [SerializeField] private StraightMovingDamager straightMovingDamager;
 
         private Vector3 _direction;
         
@@ -13,7 +13,7 @@ namespace Combat.Projectiles
         {
             base.Shoot(direction);
             _direction = direction;
-            straightDirectionMoving.Init(direction, TargetLayerMask, DoHit);
+            straightMovingDamager.Init(direction, TargetLayerMask, DoHit);
         }
 
         private void DoHit(IDamageable damageable, Collider coll)
