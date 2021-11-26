@@ -7,15 +7,15 @@ namespace Combat
     {
         [SerializeField] private Arrow arrowPrefab;
         [SerializeField] private GameObject onAttackEffect;
-        [SerializeField] private ProjectileModificatorsApplier projectileModificatorsApplier;
+        [SerializeField] private ProjectileFactory projectileFactory;
         
         public override void Attack(Vector3 pos)
         {
-            var arrow = Instantiate(arrowPrefab, transform.position, default);
-            var mods = projectileModificatorsApplier.GetMods(_owner, Level, arrow, weaponSettings, _targetLayerMask);
-            arrow.Init(_owner, weaponSettings.damage, _targetLayerMask, mods);
+            var projectile = projectileFactory.GetProjectile(arrowPrefab, Level);
+            projectile.transform.position = transform.position;
+            projectile.Init(_owner, weaponSettings.damage, _targetLayerMask);
             var dir = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
-            arrow.SetDirection(dir);
+            projectile.Shoot(dir);
             SpawnOnAttackEffect(dir);
         }
         

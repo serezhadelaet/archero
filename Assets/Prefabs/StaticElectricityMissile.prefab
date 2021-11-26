@@ -4940,7 +4940,8 @@ GameObject:
   - component: {fileID: 8402652968339850167}
   - component: {fileID: 8517043191443014701}
   - component: {fileID: 8523932031654731623}
-  - component: {fileID: -1055821145471300315}
+  - component: {fileID: 4079709073178904896}
+  - component: {fileID: 3101992883369707259}
   m_Layer: 0
   m_Name: StaticElectricityMissile
   m_TagString: Untagged
@@ -9818,7 +9819,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &-1055821145471300315
+--- !u!114 &4079709073178904896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9827,11 +9828,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 8397038857944333381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fda179befe54a3e8c36b76d6db7c136, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c0fbcc575055c64b9f9964d0b4a97a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destroyIn: 2
-  speed: 20
+  speed: 100
+  straightDirectionMoving: {fileID: 3101992883369707259}
+--- !u!114 &3101992883369707259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8397038857944333381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afad3f4707d583942986279b72df0f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 40
 --- !u!1 &8397058403502419291
 GameObject:
   m_ObjectHideFlags: 0

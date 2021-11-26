@@ -12,7 +12,7 @@ namespace Entities
         public event Action OnDeath;
         public event Action<float> OnHealthChanged;
         public bool IsDead() => _health <= 0;
-        protected float Health
+        public float Health
         {
             get => _health;
             set
@@ -53,6 +53,7 @@ namespace Entities
         
         public virtual void Heal(float hp)
         {
+            Debug.Log("On heal " + name + " " + hp);
             Health = Mathf.Min(_health + hp, _maxHealth);
         }
     }

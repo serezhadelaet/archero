@@ -14,16 +14,17 @@ namespace Combat.Projectiles
         public List<IProjectileModificator> Mods = new List<IProjectileModificator>();
         protected float Damage;
         
-        public void Init(BaseCharacter owner, float damage, LayerMask layerMask, List<IProjectileModificator> mods)
+        public virtual void Init(BaseCharacter owner, float damage, LayerMask layerMask)
         {
             Owner = owner;
             Damage = damage;
             TargetLayerMask = layerMask;
-            Mods = mods;
             
             Destroy(gameObject, destroyIn);
         }
 
+        public virtual void Shoot(Vector3 dir) { }
+        
         public virtual void OnHit(BaseCombatEntity entity, float damage)
         {
             ModsAffect(entity, damage);

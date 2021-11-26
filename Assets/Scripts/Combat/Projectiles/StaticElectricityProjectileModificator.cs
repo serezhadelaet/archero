@@ -11,18 +11,17 @@ namespace Combat.Projectiles
         private const float Radius = 10;
 
         private Collider[] _collBuf = new Collider[150];
-        private StaticElectricityMissile _electricityMissile;
+        private StaticElectricityMissileProjectile _electricityMissile;
         
         private float _nextDamage;
         private int _currentCharges;
         private List<BaseCombatEntity> _affected = new List<BaseCombatEntity>();
 
-        public StaticElectricityProjectileModificator(StaticElectricityMissile electricityMissile)
+        public StaticElectricityProjectileModificator(StaticElectricityMissileProjectile electricityMissile)
         {
             _electricityMissile = electricityMissile;
             _electricityMissile.OnArrived += ElectricityMissileOnArrived;
             _electricityMissile.OnTargetDead += ElectricityMissileOnTargetDead;
-            _electricityMissile.Mods.Remove(this);
         }
 
         public void ApplyMod(BaseProjectile projectile, BaseCombatEntity entity, float damage)
@@ -33,8 +32,6 @@ namespace Combat.Projectiles
             _affected.Add(entity);
             
             _nextDamage = damage - ((damage / 100f) * DamageMod);
-            
-            entity.TakeDamage(new HitInfo(_electricityMissile, _nextDamage, _electricityMissile.Owner));
             
             FlyToNextEntity();
         }

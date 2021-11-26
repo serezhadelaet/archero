@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Combat.Projectiles
 {
-    public class Arrow : BaseProjectile
+    public class StaticElectricityArrow : StaticElectricityMissileProjectile
     {
         [SerializeField] private StraightDirectionMoving straightDirectionMoving;
 
@@ -15,7 +15,7 @@ namespace Combat.Projectiles
             _direction = direction;
             straightDirectionMoving.Init(direction, TargetLayerMask, DoHit);
         }
-
+        
         private void DoHit(IDamageable damageable, Collider coll)
         {
             damageable.TakeDamage(new HitInfo(this, Damage, Owner, coll, _direction));
