@@ -19,6 +19,7 @@ namespace Combat.Projectiles
         private void DoHit(IDamageable damageable, Collider coll)
         {
             damageable.TakeDamage(new HitInfo(this, Damage, Owner, coll, _direction));
+            Destroy(gameObject);
         }
     }
 }

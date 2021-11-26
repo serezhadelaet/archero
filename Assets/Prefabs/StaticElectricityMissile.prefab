@@ -9832,7 +9832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyIn: 2
-  speed: 100
+  speed: 20
   straightDirectionMoving: {fileID: 3101992883369707259}
 --- !u!114 &3101992883369707259
 MonoBehaviour:

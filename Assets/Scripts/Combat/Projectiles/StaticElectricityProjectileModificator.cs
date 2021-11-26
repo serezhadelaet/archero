@@ -14,6 +14,7 @@ namespace Combat.Projectiles
         private StaticElectricityMissileProjectile _electricityMissile;
         
         private float _nextDamage;
+        private bool _hasApplied;
         private int _currentCharges;
         private List<BaseCombatEntity> _affected = new List<BaseCombatEntity>();
 
@@ -26,6 +27,9 @@ namespace Combat.Projectiles
 
         public void ApplyMod(BaseProjectile projectile, BaseCombatEntity entity, float damage)
         {
+            if (_hasApplied)
+                return;
+            _hasApplied = true;
             _electricityMissile.gameObject.SetActive(true);
             _electricityMissile.transform.position = projectile.transform.position;
             _currentCharges++;

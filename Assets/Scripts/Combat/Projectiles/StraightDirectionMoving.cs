@@ -12,7 +12,8 @@ namespace Combat.Projectiles
         private Vector3 _lastPos;
         private LayerMask _targetLayerMask;
         private Action<IDamageable, Collider> _onHit;
-        
+        public bool IsStopped;
+
         public void Init(Vector3 direction, LayerMask layerMask, Action<IDamageable, Collider> onHit)
         {
             _dir = direction;
@@ -27,16 +28,20 @@ namespace Combat.Projectiles
             if (damageable != null)
                 _onHit?.Invoke(damageable, coll);
         }
-        
+
         private void Update()
         {
+            if (IsStopped)
+                return;
+            
             _lastPos = transform.position;
             transform.position += _dir * (Time.deltaTime * speed);
         }
 
         private void LateUpdate()
         {
-            if (_lastPos != default && Physics.Linecast(_lastPos, transform.position, out var hit, _targetLayerMask))
+            if (!IsStopped && _lastPos != default &&
+                Physics.Linecast(_lastPos, transform.position, out var hit, _targetLayerMask))
             {
                 if (hit.collider)
                 {

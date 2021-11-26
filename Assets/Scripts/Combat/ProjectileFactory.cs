@@ -18,7 +18,7 @@ namespace Combat
                 case 3:
                     projectile = Instantiate(staticElectricityArrow);
                     projectile.Mods.Add(new HealingProjectileModificator());
-                    break;
+                    return projectile;
             }
             
             return Instantiate(prefab, transform.position, default);
