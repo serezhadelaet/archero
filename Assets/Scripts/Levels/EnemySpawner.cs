@@ -43,15 +43,15 @@ namespace Levels
 
         private async UniTask EnemySpawnRoutine()
         {
+            await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.waveCooldown),DelayType.DeltaTime);
+            
             while (!ShouldStopSpawn())
             {
                 if (ShouldSpawnNewWave())
-                    await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.waveCooldown),
-                        DelayType.DeltaTime);
+                    await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.waveCooldown), DelayType.DeltaTime);
 
                 if (ShouldSpawnEnemy())
-                    await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.enemySpawnDelay),
-                        DelayType.DeltaTime);
+                    await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.enemySpawnDelay), DelayType.DeltaTime);
                 
                 await UniTask.Yield();
             }

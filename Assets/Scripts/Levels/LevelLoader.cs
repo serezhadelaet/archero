@@ -17,7 +17,7 @@ namespace Levels
 
         private void Start()
         {
-            _levelsFactory.Create(levels[0]);
+            _levelsFactory.Create(levels[Random.Range(0, levels.Length)]);
         }
     }
 }
