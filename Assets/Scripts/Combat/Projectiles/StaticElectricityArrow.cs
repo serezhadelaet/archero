@@ -1,11 +1,12 @@
-﻿using Interfaces;
+﻿using Combat.Projectiles.MovingDamagers;
+using Interfaces;
 using UnityEngine;
 
 namespace Combat.Projectiles
 {
     public class StaticElectricityArrow : StaticElectricityMissileProjectile
     {
-        [SerializeField] private StraightMovingDamager straightMovingDamager;
+        [SerializeField] private MovingDamager movingDamager;
 
         private Vector3 _direction;
         
@@ -13,13 +14,13 @@ namespace Combat.Projectiles
         {
             base.Shoot(direction);
             _direction = direction;
-            straightMovingDamager.Init(direction, TargetLayerMask, DoHit);
+            movingDamager.Init(direction, TargetLayerMask, DoHit);
         }
         
         private void DoHit(IDamageable damageable, Collider coll)
         {
-            damageable.TakeDamage(new HitInfo(this, Damage, Owner, coll, _direction));
-            straightMovingDamager.IsStopped = true;
+            damageable?.TakeDamage(new HitInfo(this, Damage, Owner, coll, _direction));
+            movingDamager.IsStopped = true;
         }
     }
 }

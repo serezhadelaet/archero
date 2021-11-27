@@ -7,7 +7,6 @@ namespace Entities
 {
     public class Player : BaseCharacter
     {
-        [SerializeField] private float attackingRotationSpeed = 1440;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private float attackRange = 10;
         [SerializeField] private ParticleSystem healingEffect;
@@ -17,8 +16,6 @@ namespace Entities
         private const float AttackCooldown = 0.1f;
         
         private Collider[] _collBuff = new Collider[30];
-        private BaseCombatEntity _currentTarget;
-        private Vector3 _lastTargetPos;
         private float _lastAttackTime;
 
         [Inject]
@@ -28,8 +25,10 @@ namespace Entities
 
             movement.Init(joystick, navAgent, animations);
             SetupOverlay(gameOverlay);
+            SetHealth();
+            SetWeapon();
         }
-
+ 
         private void SetupOverlay(GameOverlay gameOverlay)
         {
             gameOverlay.UpdateHealth((int)Health);
@@ -44,45 +43,36 @@ namespace Entities
             healingEffect.Play();
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+            if (IsDead())
+                return;
+            
             InstantiateAttack();
             TryToCancelAttack();
-            FollowTarget();
         }
         
         private void InstantiateAttack()
         {
             var nearestEnemy = GetNearestEnemy();
             if (nearestEnemy != null)
-                _currentTarget = nearestEnemy;
+                CurrentTarget = nearestEnemy;
             if (!CanAttack())
                 return;
             
             _lastAttackTime = Time.time;
-            if (_currentTarget != null)
+            if (CurrentTarget != null)
             {
-                _lastTargetPos = _currentTarget.transform.position;
+                LastTargetPos = CurrentTarget.transform.position;
             }
             
-            animations.Attack(_currentTarget != null);
-        }
-
-        private void FollowTarget()
-        {
-            if (!ShouldFollowTarget())
-                return;
-            
-            _lastTargetPos = _currentTarget.transform.position;
-            var targetDir = (_lastTargetPos - transform.position).normalized;
-            var targetRot = Quaternion.LookRotation(targetDir);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot,
-                Time.deltaTime * attackingRotationSpeed);
+            animations.Attack(CurrentTarget != null);
         }
 
         private void TryToCancelAttack()
         {
-            if (IsMoving() || !CanSee(_lastTargetPos) || (_currentTarget != null && _currentTarget.IsDead()))
+            if (IsMoving() || !CanSee(LastTargetPos) || (CurrentTarget != null && CurrentTarget.IsDead()))
                 animations.Attack(false);
         }
         
@@ -91,9 +81,9 @@ namespace Entities
             if (IsMoving())
                 return;
             
-            transform.LookAt(_lastTargetPos);
+            transform.LookAt(LastTargetPos);
             weapon.SetLevel(playerProgression.GetLevel());
-            weapon.Attack(_lastTargetPos);
+            weapon.Attack(LastTargetPos);
         }
 
         private BaseCombatEntity GetNearestEnemy()
@@ -122,7 +112,7 @@ namespace Entities
             return nearestEntity;
         }
 
-        private bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && _currentTarget;
+        protected override bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && CurrentTarget;
         private bool IsMoving() => Input.GetMouseButton(0);
 
         private bool CanAttack() => !animations.IsAttacking() && !IsMoving() &&

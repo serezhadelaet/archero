@@ -16,10 +16,11 @@ namespace Levels
         private Level _level;
         private Player _player;
 
-        private int _currentWave;
+        private int _currentWaveIndex;
         private int _aliveEnemiesCount;
         private int _waveSpawnedEnemiesCount;
-
+        private LevelSettings.WaveSettings _currentWave;
+        
         private void OnValidate()
         {
             spawnColliders = GetComponentsInChildren<Collider>();
@@ -32,22 +33,20 @@ namespace Levels
             _levelSettings = levelSettings;
             _characterFactory = characterFactory;
 
+            _currentWave = _levelSettings.waves[_currentWaveIndex];
             EnemySpawnRoutine().Forget();
         }
 
         private async UniTask EnemySpawnRoutine()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(_levelSettings.waveSettings.startDelay),
-                DelayType.DeltaTime);
-            
             while (!ShouldStopSpawn())
             {
                 if (ShouldSpawnNewWave())
-                    await UniTask.Delay(TimeSpan.FromSeconds(_levelSettings.waveSettings.waveCooldown),
+                    await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.waveCooldown),
                         DelayType.DeltaTime);
 
                 if (ShouldSpawnEnemy())
-                    await UniTask.Delay(TimeSpan.FromSeconds(_levelSettings.waveSettings.enemySpawnDelay),
+                    await UniTask.Delay(TimeSpan.FromSeconds(_currentWave.enemySpawnDelay),
                         DelayType.DeltaTime);
                 
                 await UniTask.Yield();
@@ -58,7 +57,8 @@ namespace Levels
         {
             if (CanSpawnNewWave())
             {
-                _currentWave++;
+                _currentWaveIndex++;
+                _currentWave = _levelSettings.waves[_currentWaveIndex];
                 _waveSpawnedEnemiesCount = 0;
                 return true;
             }
@@ -74,7 +74,7 @@ namespace Levels
             _aliveEnemiesCount++;
             _waveSpawnedEnemiesCount++;
             var enemy = _characterFactory.Create(enemyPrefab, GetRandomPos(), default, _level.transform) as Enemy;
-            enemy.Init(_player);
+            enemy.Init(_player, _currentWave.enemiesSettings);
             enemy.OnDeath += OnEnemyDeath;
             return true;
         }
@@ -84,26 +84,26 @@ namespace Levels
             _aliveEnemiesCount--;
         }
 
-        private bool CanSpawnEnemy() => _waveSpawnedEnemiesCount < _levelSettings.waveSettings.maxEnemiesOnWave;
+        private bool CanSpawnEnemy() => _waveSpawnedEnemiesCount < _currentWave.maxEnemiesOnWave;
 
         private bool CanSpawnNewWave()
         {
-            return _waveSpawnedEnemiesCount == _levelSettings.waveSettings.maxEnemiesOnWave
-                   && _levelSettings.waveSettings.waves > _currentWave + 1
+            return _waveSpawnedEnemiesCount == _currentWave.maxEnemiesOnWave
+                   && _levelSettings.waves.Length > _currentWaveIndex + 1
                    && _aliveEnemiesCount == 0;
         }
 
         private bool ShouldStopSpawn()
         {
-            var isLastWaveAndAllEnemiesSpawned = _currentWave + 1 == _levelSettings.waveSettings.waves
+            var isLastWaveAndAllEnemiesSpawned = _currentWaveIndex + 1 == _levelSettings.waves.Length
                                                  && _waveSpawnedEnemiesCount ==
-                                                 _levelSettings.waveSettings.maxEnemiesOnWave;
+                                                 _currentWave.maxEnemiesOnWave;
             return _level.HasPassed || isLastWaveAndAllEnemiesSpawned;
         }
 
         private Vector3 GetRandomPos()
         {
-            var coll = spawnColliders[_currentWave];
+            var coll = spawnColliders[_currentWaveIndex];
             var bounds = coll.bounds;
             var x = Random.Range(bounds.min.x, bounds.max.x);
             var y = 0;

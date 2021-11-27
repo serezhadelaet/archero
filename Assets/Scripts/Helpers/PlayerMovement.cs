@@ -18,6 +18,9 @@ namespace Helpers
         
         private void Moving()
         {
+            if (!_navAgent.enabled)
+                return;
+            
             var offset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
             _navAgent.SetDestination(transform.position + offset);
             _animations.SetRunSpeed(offset.magnitude);

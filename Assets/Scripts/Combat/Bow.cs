@@ -13,7 +13,7 @@ namespace Combat
         {
             var projectile = projectileFactory.GetProjectile(arrowPrefab, Level);
             projectile.transform.position = transform.position;
-            projectile.Init(_owner, weaponSettings.damage, _targetLayerMask);
+            projectile.Init(_owner, _weaponSettings.damage, _targetLayerMask);
             var dir = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
             projectile.Shoot(dir);
             SpawnOnAttackEffect(dir);

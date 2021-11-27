@@ -8,13 +8,20 @@ namespace Helpers
     public class CharacterAnimations : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-
+        [SerializeField] private float attackSpeed = 1;
+        
         private static readonly int AttackBool = Animator.StringToHash("IsAttacking");
         private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
         private static readonly int OnHit1 = Animator.StringToHash("OnHit1");
         private static readonly int OnHit2 = Animator.StringToHash("OnHit2");
+        private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
         public event Action OnAttacked;
+
+        private void OnEnable()
+        {
+            animator.SetFloat(AttackSpeed, attackSpeed);
+        }
 
         private void OnValidate()
         {

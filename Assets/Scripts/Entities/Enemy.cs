@@ -6,44 +6,48 @@ namespace Entities
     public class Enemy : BaseCharacter
     {
         [SerializeField] private PlayerProgressionFollower playerProgressionFollower;
+        [SerializeField] private float attackRange = 5;
+        [SerializeField] private float followRange = 10;
         
-        private const float Range = 10;
-        private const float AttackRange = 5;
-        private const float AttackCooldown = 1;
-        
-        private Player _player;
-        private float _lastAttackTime;
-
-        public void Init(Player player)
+        public void Init(Player player, CombatEntitySettings combatEntitySettings)
         {
-            _player = player;
+            combatSettings = combatEntitySettings;
+            CurrentTarget = player;
+            navAgent.stoppingDistance = followRange - attackRange;
+            animations.OnAttacked += Shoot;
             
-            navAgent.stoppingDistance = Range - AttackRange;
+            SetWeapon();
+            SetHealth();
         }
-        
-        private void Update()
+
+        protected override void Update()
         {
+            base.Update();
             if (IsDead())
                 return;
-            
-            var distanceToPlayer = Vector3.Distance(_player.transform.position, transform.position);
+
+            var distanceToPlayer = Vector3.Distance(CurrentTarget.transform.position, transform.position);
             MoveToPlayer(distanceToPlayer);
-            AttackPlayer(distanceToPlayer);
+            TryToAttackPlayer(distanceToPlayer);
         }
 
         private void MoveToPlayer(float distance)
         {
-            if (distance < Range)
-                navAgent.SetDestination(_player.transform.position);
+            if (distance < followRange)
+                navAgent.SetDestination(CurrentTarget.transform.position);
             animations.SetRunSpeed(navAgent.velocity.magnitude);
         }
 
-        private void AttackPlayer(float distance)
+        private void TryToAttackPlayer(float distance)
         {
-            if (distance < AttackRange && Time.time > _lastAttackTime + AttackCooldown)
-            {
-                _lastAttackTime = Time.time;
-            }
+            animations.Attack(distance < attackRange);
+        }
+
+        protected override bool ShouldFollowTarget() => animations.IsAttacking();
+
+        private void Shoot()
+        {
+            weapon.Attack(CurrentTarget.transform.position);
         }
 
         protected override void OnDead()
