@@ -9,17 +9,20 @@ namespace Combat.Projectiles.MovingDamagers
     {
         public bool IsStopped { get; set; }
 
-        protected Vector3 _lastPos;
-        protected LayerMask _targetLayerMask;
-        protected Action<IDamageable, Collider> _onHit;
-        protected Vector3 _targetPos;
-
+        private Vector3 _lastPos;
+        private LayerMask _targetLayerMask;
+        private Action<IDamageable, Collider> _onHit;
+        protected Vector3 TargetPos;
+        protected Vector3 Direction;
+        
         private IDamageable _owner;
 
-        public virtual void Init(Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit,
+        public virtual void Init(Vector3 direction, Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit,
             IDamageable owner)
         {
-            _targetPos = targetPos;
+            IsStopped = false;
+            Direction = direction;
+            TargetPos = targetPos;
             _targetLayerMask = layerMask;
             _onHit = onHit;
             _owner = owner;

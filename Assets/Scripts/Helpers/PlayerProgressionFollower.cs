@@ -18,8 +18,9 @@ namespace Helpers
             OnProgress?.Invoke();
         }
 
-        private void OnEnable()
+        public void Restart()
         {
+            OnProgress = null;
             _expPoints = 0;
         }
 

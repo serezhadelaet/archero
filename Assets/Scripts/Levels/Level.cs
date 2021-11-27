@@ -17,8 +17,6 @@ namespace Levels
         [SerializeField] private Player playerPrefab;
         [SerializeField] private NavMeshData navMeshData;
         
-        [NonSerialized] public bool HasPassed;
-        
         private NavMeshDataInstance _navMeshInstance;
         private CharacterFactory _characterFactory;
         private Player _player;

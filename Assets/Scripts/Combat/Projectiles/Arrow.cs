@@ -10,11 +10,11 @@ namespace Combat.Projectiles
 
         private Vector3 _direction;
         
-        public override void Shoot(Vector3 direction)
+        public override void Shoot(Vector3 direction, Vector3 targetPos)
         {
-            base.Shoot(direction);
+            base.Shoot(direction, targetPos);
             _direction = direction;
-            movingDamager.Init(direction, TargetLayerMask, DoHit, Owner);
+            movingDamager.Init(direction, targetPos ,TargetLayerMask, DoHit, Owner);
         }
 
         private void DoHit(IDamageable damageable, Collider coll)

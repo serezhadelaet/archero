@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7981349590318998560}
   - component: {fileID: 7989579238326781714}
   - component: {fileID: -5525076592888009898}
-  - component: {fileID: 5982242819709122299}
+  - component: {fileID: -2810673098743991991}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -96,8 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyIn: 2
-  movingDamager: {fileID: 5982242819709122299}
---- !u!114 &5982242819709122299
+  movingDamager: {fileID: -2810673098743991991}
+--- !u!114 &-2810673098743991991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

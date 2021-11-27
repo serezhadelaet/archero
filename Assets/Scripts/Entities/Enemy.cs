@@ -20,7 +20,7 @@ namespace Entities
             SetWeapon();
             SetHealth();
             SetLevel();
-            weapon.SetLevel(_level);
+            weapon.SetLevel(Level);
         }
 
         protected override void Update()
@@ -38,18 +38,19 @@ namespace Entities
         {
             animations.SetRunSpeed(navAgent.velocity.magnitude);
             
-            if (distance > followRange || distance < stopDistance)
+            if (ShouldStopMoving(distance))
             {
                 navAgent.isStopped = true;
                 return;
             }
+            
             navAgent.isStopped = false;    
             navAgent.SetDestination(CurrentTarget.transform.position);
         }
 
         private void TryToAttackPlayer(float distance)
         {
-            animations.Attack(distance < attackRange);
+            animations.Attack(CanAttackPlayer(distance));
         }
 
         protected override bool ShouldFollowTarget() => animations.IsAttacking();
@@ -65,6 +66,8 @@ namespace Entities
             playerProgressionFollower.Progress();
         }
 
+        private bool ShouldStopMoving(float distance) => distance > followRange || distance < stopDistance;
+        private bool CanAttackPlayer(float distance) => distance < attackRange && navAgent.velocity.magnitude < 0.1f;
         protected override bool CanDamageMyself() => true;
     }
 }

@@ -9,9 +9,9 @@ namespace Combat.Projectiles
         [SerializeField] private MovingDamager movingDamager;
         [SerializeField] private GameObject hitEffect;
         
-        public override void Shoot(Vector3 pos)
+        public override void Shoot(Vector3 dir, Vector3 targetPos)
         {
-            movingDamager.Init(pos, TargetLayerMask, DoHit, Owner);
+            movingDamager.Init(dir, targetPos, TargetLayerMask, DoHit, Owner);
         }
         
         private void DoHit(IDamageable damageable, Collider coll)

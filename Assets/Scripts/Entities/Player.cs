@@ -34,6 +34,7 @@ namespace Entities
         private void SetupOverlay(GameOverlay gameOverlay)
         {
             gameOverlay.UpdateHealth((int)Health);
+            playerProgression.Restart();
             gameOverlay.UpdateExp(playerProgression.GetExp());
             gameOverlay.UpdateLevel(playerProgression.GetLevel());
             
@@ -128,10 +129,7 @@ namespace Entities
 
         protected override bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && CurrentTarget;
         private bool IsMoving() => Input.GetMouseButton(0);
-
-        private bool CanAttack() => !animations.IsAttacking() && !IsMoving() &&
-                                    Time.time > _lastAttackTime + AttackCooldown;
-
+        private bool CanAttack() => !animations.IsAttacking() && !IsMoving() && Time.time > _lastAttackTime + AttackCooldown;
         private bool CanSee(Vector3 pos) => !Physics.Linecast(transform.position, pos, obstacleLayer);
     }
 }

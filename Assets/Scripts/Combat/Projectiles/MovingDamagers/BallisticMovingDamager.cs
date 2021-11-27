@@ -21,11 +21,11 @@ namespace Combat.Projectiles.MovingDamagers
         private float _lerpTime;
         private float _gravityY;
 
-        public override void Init(Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit,
+        public override void Init(Vector3 direction, Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit,
             IDamageable owner)
         {
-            base.Init(targetPos, layerMask, onHit, owner);
-            
+            base.Init(direction, targetPos, layerMask, onHit, owner);
+            _lerpTime = 0;
             _launchPoint = transform.position;
 
             var distance = Vector3.Distance(targetPos, _launchPoint);
@@ -36,8 +36,8 @@ namespace Combat.Projectiles.MovingDamagers
             
             // Some ballistic math
             Vector2 dir;
-            dir.x = _targetPos.x - _launchPoint.x;
-            dir.y = _targetPos.z - _launchPoint.z;
+            dir.x = TargetPos.x - _launchPoint.x;
+            dir.y = TargetPos.z - _launchPoint.z;
             var dirMagnitude = dir.magnitude;
             var y = -_launchPoint.y;
             dir /= dirMagnitude;

@@ -20,7 +20,7 @@ namespace Entities
         private HitInfo _lastHit;
         protected Vector3 LastTargetPos;
         protected BaseCombatEntity CurrentTarget;
-        protected int _level;
+        protected int Level;
         
         private void Awake()
         {
@@ -35,7 +35,7 @@ namespace Entities
         
         protected virtual void SetLevel()
         {
-            _level = combatSettings.level;
+            Level = combatSettings.level;
         }
 
         protected virtual void SetWeapon()

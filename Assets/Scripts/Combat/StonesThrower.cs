@@ -12,8 +12,9 @@ namespace Combat
         {
             var projectile = projectileFactory.GetProjectile(stoneProjectile, Level);
             projectile.transform.position = transform.position;
-            projectile.Init(_owner, _weaponSettings.damage, _targetLayerMask);
-            projectile.Shoot(pos);
+            projectile.Init(Owner, WeaponSettings.damage, TargetLayerMask);
+            var dir = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
+            projectile.Shoot(dir, pos);
         }
     }
 }

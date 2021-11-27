@@ -55,7 +55,6 @@ namespace Levels
                 
                 await UniTask.Yield();
             }
-            _winLoseOverlay.Show();
         }
 
         private bool ShouldSpawnNewWave()
@@ -87,6 +86,9 @@ namespace Levels
         private void OnEnemyDeath()
         {
             _aliveEnemiesCount--;
+            
+            if (_aliveEnemiesCount == 0 && ShouldStopSpawn())
+                _winLoseOverlay.Show();
         }
 
         private bool CanSpawnEnemy() => _waveSpawnedEnemiesCount < _currentWave.maxEnemiesOnWave;
@@ -103,7 +105,7 @@ namespace Levels
             var isLastWaveAndAllEnemiesSpawned = _currentWaveIndex + 1 == _levelSettings.waves.Length
                                                  && _waveSpawnedEnemiesCount ==
                                                  _currentWave.maxEnemiesOnWave;
-            return _level.HasPassed || isLastWaveAndAllEnemiesSpawned;
+            return isLastWaveAndAllEnemiesSpawned;
         }
 
         private Vector3 GetRandomPos()

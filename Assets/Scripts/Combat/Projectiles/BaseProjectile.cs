@@ -24,7 +24,7 @@ namespace Combat.Projectiles
             Destroy(gameObject, destroyIn);
         }
 
-        public virtual void Shoot(Vector3 dir) { }
+        public virtual void Shoot(Vector3 dir, Vector3 targetPos) { }
         
         public virtual void OnHit(BaseCombatEntity entity, float damage)
         {

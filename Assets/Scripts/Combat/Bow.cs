@@ -13,15 +13,15 @@ namespace Combat
         {
             var projectile = projectileFactory.GetProjectile(arrowPrefab, Level);
             projectile.transform.position = transform.position;
-            projectile.Init(_owner, _weaponSettings.damage, _targetLayerMask);
+            projectile.Init(Owner, WeaponSettings.damage, TargetLayerMask);
             var dir = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
-            projectile.Shoot(dir);
+            projectile.Shoot(dir, pos);
             SpawnOnAttackEffect(dir);
         }
         
-        private void SpawnOnAttackEffect(Vector3 targetDir)
+        private void SpawnOnAttackEffect(Vector3 dir)
         {
-            Instantiate(onAttackEffect, transform.position, Quaternion.LookRotation(targetDir));
+            Instantiate(onAttackEffect, transform.position, Quaternion.LookRotation(dir));
         }
     }
 }

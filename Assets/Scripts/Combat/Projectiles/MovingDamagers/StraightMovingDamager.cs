@@ -8,10 +8,10 @@ namespace Combat.Projectiles.MovingDamagers
     {
         [SerializeField] private float speed = 40;
         
-        public override void Init(Vector3 direction, LayerMask layerMask, Action<IDamageable, Collider> onHit,
+        public override void Init(Vector3 direction, Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit,
             IDamageable owner)
         {
-            base.Init(direction, layerMask, onHit, owner);
+            base.Init(direction, targetPos, layerMask, onHit, owner);
             transform.forward = direction;
         }
 
@@ -20,7 +20,7 @@ namespace Combat.Projectiles.MovingDamagers
             base.Update();
             
             if (!IsStopped)
-                transform.position += _targetPos * (Time.deltaTime * speed);
+                transform.position += Direction * (Time.deltaTime * speed);
         }
     }
 }

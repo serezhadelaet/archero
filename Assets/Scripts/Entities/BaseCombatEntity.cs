@@ -12,10 +12,10 @@ namespace Entities
         public event Action OnDeath;
         public event Action<float> OnHealthChanged;
         public bool IsDead() => _health <= 0;
-        public float Health
+        protected float Health
         {
             get => _health;
-            set
+            private set
             {
                 _health = value;
                 OnHealthChanged?.Invoke(_health);

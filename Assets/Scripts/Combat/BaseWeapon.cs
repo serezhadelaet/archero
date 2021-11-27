@@ -5,10 +5,10 @@ namespace Combat
 {
     public abstract class BaseWeapon : MonoBehaviour
     {
-        protected WeaponSettings _weaponSettings;
-        protected BaseCharacter _owner;
+        protected WeaponSettings WeaponSettings;
+        protected BaseCharacter Owner;
         protected int Level;
-        protected LayerMask _targetLayerMask;
+        protected LayerMask TargetLayerMask;
 
         public void SetLevel(int level)
         {
@@ -17,9 +17,9 @@ namespace Combat
 
         public void Init(BaseCharacter owner, LayerMask targetLayer, WeaponSettings weaponSettings)
         {
-            _owner = owner;
-            _targetLayerMask = targetLayer;
-            _weaponSettings = weaponSettings;
+            Owner = owner;
+            TargetLayerMask = targetLayer;
+            WeaponSettings = weaponSettings;
         }
 
         public abstract void Attack(Vector3 pos);
