@@ -52,7 +52,7 @@ MonoBehaviour:
   ragDoll: {fileID: 9122370447658840304}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 1664
+    m_Bits: 1728
   attackingRotationSpeed: 1440
   renderers:
   - {fileID: 8789273657830877720}
@@ -64,7 +64,8 @@ MonoBehaviour:
   healthBar: {fileID: 3407573283103654445}
   playerProgressionFollower: {fileID: 11400000, guid: ce42a41c7d0efda439b9258363db2a06, type: 2}
   attackRange: 10
-  followRange: 2
+  followRange: 4
+  stopDistance: 2
 --- !u!195 &5483035119359666743
 NavMeshAgent:
   m_ObjectHideFlags: 0

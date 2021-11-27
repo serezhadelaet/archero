@@ -7,7 +7,7 @@ namespace Combat
     {
         [SerializeField] private Arrow arrowPrefab;
         [SerializeField] private GameObject onAttackEffect;
-        [SerializeField] private ProjectileFactory projectileFactory;
+        [SerializeField] private ArrowProjectileFactory projectileFactory;
         
         public override void Attack(Vector3 pos)
         {

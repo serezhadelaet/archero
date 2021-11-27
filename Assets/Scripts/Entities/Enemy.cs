@@ -8,6 +8,7 @@ namespace Entities
         [SerializeField] private PlayerProgressionFollower playerProgressionFollower;
         [SerializeField] private float attackRange = 5;
         [SerializeField] private float followRange = 10;
+        [SerializeField] private float stopDistance = 2;
         
         public void Init(Player player, CombatEntitySettings combatEntitySettings)
         {
@@ -18,6 +19,8 @@ namespace Entities
             
             SetWeapon();
             SetHealth();
+            SetLevel();
+            weapon.SetLevel(_level);
         }
 
         protected override void Update()
@@ -31,11 +34,23 @@ namespace Entities
             TryToAttackPlayer(distanceToPlayer);
         }
 
+        public override void Heal(float hp)
+        {
+            Debug.Log(name + " was heal on " + hp);
+            base.Heal(hp);
+        }
+
         private void MoveToPlayer(float distance)
         {
-            if (distance < followRange)
-                navAgent.SetDestination(CurrentTarget.transform.position);
             animations.SetRunSpeed(navAgent.velocity.magnitude);
+            
+            if (distance > followRange || distance < stopDistance)
+            {
+                navAgent.isStopped = true;
+                return;
+            }
+            navAgent.isStopped = false;    
+            navAgent.SetDestination(CurrentTarget.transform.position);
         }
 
         private void TryToAttackPlayer(float distance)
@@ -55,5 +70,7 @@ namespace Entities
             base.OnDead();
             playerProgressionFollower.Progress();
         }
+
+        protected override bool CanDamageMyself() => true;
     }
 }

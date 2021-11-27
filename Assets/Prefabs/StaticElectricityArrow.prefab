@@ -4943,7 +4943,7 @@ GameObject:
   - component: {fileID: 4079709073178904896}
   - component: {fileID: 3101992883369707259}
   m_Layer: 0
-  m_Name: StaticElectricityMissile
+  m_Name: StaticElectricityArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

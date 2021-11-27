@@ -30,11 +30,12 @@ namespace Entities
             _maxHealth = combatSettings.health;
             Health = _maxHealth;
         }
-        
+
         public virtual void TakeDamage(HitInfo hitInfo)
         {
-            if (IsDead())
+            if (IsDead() || (hitInfo.Initiator == this && !CanDamageMyself()))
                 return;
+            
             if (hitInfo.Damage > 0)
             {
                 Health = Mathf.Max(_health - hitInfo.Damage, 0);
@@ -53,7 +54,10 @@ namespace Entities
         
         public virtual void Heal(float hp)
         {
-            Health = Mathf.Min(_health + hp, _maxHealth);
+            if (!IsDead())
+                Health = Mathf.Min(_health + hp, _maxHealth);
         }
+
+        protected virtual bool CanDamageMyself() => false;
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5556177305688349484}
   - component: {fileID: 5565743019258982784}
   - component: {fileID: 2575425099028060531}
-  - component: {fileID: 399556744493556099}
+  - component: {fileID: 998469152273578812}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -95,11 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291f80a6497d4140bccb1e2a47ec1a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSettings: {fileID: 11400000, guid: 5da27bbc87a874a459f0455a6c9b7610, type: 2}
   arrowPrefab: {fileID: -5525076592888009898, guid: 983d83a45c234924893604474850c72e, type: 3}
   onAttackEffect: {fileID: 8040978905455299817, guid: 4de79de4324cffa48be8a9dd1874f028, type: 3}
-  projectileFactory: {fileID: 399556744493556099}
---- !u!114 &399556744493556099
+  projectileFactory: {fileID: 998469152273578812}
+--- !u!114 &998469152273578812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5579315384525432786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ab6968f68d0e040b0bb74bfcb7af1c, type: 3}
+  m_Script: {fileID: 11500000, guid: e7d6405c4cbc1d940892dfeabcce71b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   staticElectricityArrow: {fileID: 4079709073178904896, guid: 10b5739de4720db4e84a8535a2df7183, type: 3}

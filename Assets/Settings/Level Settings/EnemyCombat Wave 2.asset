@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: EnemyCombat Wave 2
   m_EditorClassIdentifier: 
   weaponSettings: {fileID: 11400000, guid: 4ea2cf740b88f0743bc262997ca592b3, type: 2}
+  level: 2
   health: 200

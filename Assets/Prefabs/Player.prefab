@@ -1886,7 +1886,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5579315384525432786, guid: 1aaad04c2f6d5ea46b079b7e934bdfd1, type: 3}
       propertyPath: m_Name
-      value: Prop_Bow_01
+      value: Bow
       objectReference: {fileID: 0}
     - target: {fileID: 5579315384525432786, guid: 1aaad04c2f6d5ea46b079b7e934bdfd1, type: 3}
       propertyPath: m_Layer

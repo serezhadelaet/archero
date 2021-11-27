@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Combat
 {
-    public class ProjectileFactory : MonoBehaviour
+    public class ArrowProjectileFactory : BaseProjectileFactory
     {
         [SerializeField] private StaticElectricityArrow staticElectricityArrow;
 
-        public BaseProjectile GetProjectile(BaseProjectile prefab, int level)
+        public override BaseProjectile GetProjectile(BaseProjectile prefab, int level)
         {
             BaseProjectile projectile;
             switch (level)

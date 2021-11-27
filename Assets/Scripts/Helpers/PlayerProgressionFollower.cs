@@ -23,6 +23,7 @@ namespace Helpers
             _expPoints = 0;
         }
 
+        public int GetExp() => _expPoints;
         public int GetLevel() => Mathf.Min(maxLevel, Mathf.FloorToInt(_expPoints / 2f) + 1);
     }
 }

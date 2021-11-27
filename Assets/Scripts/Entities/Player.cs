@@ -27,14 +27,21 @@ namespace Entities
             SetupOverlay(gameOverlay);
             SetHealth();
             SetWeapon();
+            SetLevel();
         }
  
         private void SetupOverlay(GameOverlay gameOverlay)
         {
             gameOverlay.UpdateHealth((int)Health);
+            gameOverlay.UpdateExp(playerProgression.GetExp());
             gameOverlay.UpdateLevel(playerProgression.GetLevel());
+            
             OnHealthChanged += (health) => gameOverlay.UpdateHealth((int) health);
-            playerProgression.OnProgress += () => gameOverlay.UpdateLevel(playerProgression.GetLevel());
+            playerProgression.OnProgress += () =>
+            {
+                gameOverlay.UpdateLevel(playerProgression.GetLevel());
+                gameOverlay.UpdateExp(playerProgression.GetExp());
+            };
         }
 
         public override void Heal(float hp)

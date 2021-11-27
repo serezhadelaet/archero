@@ -20,6 +20,7 @@ namespace Entities
         private HitInfo _lastHit;
         protected Vector3 LastTargetPos;
         protected BaseCombatEntity CurrentTarget;
+        protected int _level;
         
         private void Awake()
         {
@@ -30,6 +31,11 @@ namespace Entities
         {
             base.SetHealth();
             SetHealthBar();
+        }
+        
+        protected virtual void SetLevel()
+        {
+            _level = combatSettings.level;
         }
 
         protected virtual void SetWeapon()

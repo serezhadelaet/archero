@@ -7,6 +7,7 @@ namespace Entities
     public class CombatEntitySettings : ScriptableObject
     {
         public WeaponSettings weaponSettings;
+        public int level;
         public int health;
     }
 }
