@@ -8,9 +8,10 @@ namespace Combat.Projectiles.MovingDamagers
     {
         [SerializeField] private float speed = 40;
         
-        public override void Init(Vector3 direction, LayerMask layerMask, Action<IDamageable, Collider> onHit)
+        public override void Init(Vector3 direction, LayerMask layerMask, Action<IDamageable, Collider> onHit,
+            IDamageable owner)
         {
-            base.Init(direction, layerMask, onHit);
+            base.Init(direction, layerMask, onHit, owner);
             transform.forward = direction;
         }
 

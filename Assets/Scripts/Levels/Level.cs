@@ -1,6 +1,7 @@
 ﻿using System;
 using Cinemachine;
 using Entities;
+using UI;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -23,13 +24,13 @@ namespace Levels
         private Player _player;
         
         [Inject]
-        private void Construct(CharacterFactory characterFactory)
+        private void Construct(CharacterFactory characterFactory, WinLoseOverlay winLoseOverlay)
         {
             _characterFactory = characterFactory;
 
             InitNavMesh();
             InitPlayer();
-            InitEnemySpawner();
+            InitEnemySpawner(winLoseOverlay);
         }
 
         private void OnDestroy()
@@ -42,9 +43,9 @@ namespace Levels
             _navMeshInstance = NavMesh.AddNavMeshData(navMeshData);
         }
 
-        private void InitEnemySpawner()
+        private void InitEnemySpawner(WinLoseOverlay winLoseOverlay)
         {
-            enemySpawner.Init(this, _player, settings, _characterFactory);
+            enemySpawner.Init(this, _player, settings, _characterFactory, winLoseOverlay);
         }
         
         private void InitPlayer()

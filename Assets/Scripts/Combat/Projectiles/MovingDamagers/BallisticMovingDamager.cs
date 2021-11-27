@@ -21,9 +21,10 @@ namespace Combat.Projectiles.MovingDamagers
         private float _lerpTime;
         private float _gravityY;
 
-        public override void Init(Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit)
+        public override void Init(Vector3 targetPos, LayerMask layerMask, Action<IDamageable, Collider> onHit,
+            IDamageable owner)
         {
-            base.Init(targetPos, layerMask, onHit);
+            base.Init(targetPos, layerMask, onHit, owner);
             
             _launchPoint = transform.position;
 

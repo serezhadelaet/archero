@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSettings: {fileID: 11400000, guid: 5da27bbc87a874a459f0455a6c9b7610, type: 2}
   level: 1
-  health: 5000
+  health: 200

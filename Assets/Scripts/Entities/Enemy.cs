@@ -34,12 +34,6 @@ namespace Entities
             TryToAttackPlayer(distanceToPlayer);
         }
 
-        public override void Heal(float hp)
-        {
-            Debug.Log(name + " was heal on " + hp);
-            base.Heal(hp);
-        }
-
         private void MoveToPlayer(float distance)
         {
             animations.SetRunSpeed(navAgent.velocity.magnitude);

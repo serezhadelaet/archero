@@ -9,9 +9,11 @@ public class Bootstrap : MonoInstaller
     [SerializeField] private Joystick joystick;
     [SerializeField] private LevelLoader levelLoader;
     [SerializeField] private GameOverlay gameOverlay;
+    [SerializeField] private WinLoseOverlay winLoseOverlay;
     
     public override void InstallBindings()
     {
+        BindWinLoseOverlay();
         BindJoystick();
         BindCharacterFactory();
         BindLevelsFactory();
@@ -32,6 +34,14 @@ public class Bootstrap : MonoInstaller
         Container
             .Bind<GameOverlay>()
             .FromInstance(gameOverlay)
+            .AsSingle();
+    }
+    
+    private void BindWinLoseOverlay()
+    {
+        Container
+            .Bind<WinLoseOverlay>()
+            .FromInstance(winLoseOverlay)
             .AsSingle();
     }
 

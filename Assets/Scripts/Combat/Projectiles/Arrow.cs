@@ -14,7 +14,7 @@ namespace Combat.Projectiles
         {
             base.Shoot(direction);
             _direction = direction;
-            movingDamager.Init(direction, TargetLayerMask, DoHit);
+            movingDamager.Init(direction, TargetLayerMask, DoHit, Owner);
         }
 
         private void DoHit(IDamageable damageable, Collider coll)

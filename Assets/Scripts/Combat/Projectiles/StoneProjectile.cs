@@ -11,7 +11,7 @@ namespace Combat.Projectiles
         
         public override void Shoot(Vector3 pos)
         {
-            movingDamager.Init(pos, TargetLayerMask, DoHit);
+            movingDamager.Init(pos, TargetLayerMask, DoHit, Owner);
         }
         
         private void DoHit(IDamageable damageable, Collider coll)

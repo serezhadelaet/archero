@@ -7,8 +7,9 @@ namespace Combat.Projectiles
 {
     public abstract class BaseProjectile : MonoBehaviour, IProjectile
     {
-        [NonSerialized] public LayerMask TargetLayerMask;
-        [NonSerialized] public BaseCharacter Owner;
+        public LayerMask TargetLayerMask { get; private set; }
+        public BaseCharacter Owner { get; private set; }
+        
         [SerializeField] private float destroyIn = 2;
         
         public List<IProjectileModificator> Mods = new List<IProjectileModificator>();

@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Entities;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,18 +21,21 @@ namespace Levels
         private int _aliveEnemiesCount;
         private int _waveSpawnedEnemiesCount;
         private LevelSettings.WaveSettings _currentWave;
+        private WinLoseOverlay _winLoseOverlay;
         
         private void OnValidate()
         {
             spawnColliders = GetComponentsInChildren<Collider>();
         }
 
-        public void Init(Level level, Player player, LevelSettings levelSettings, CharacterFactory characterFactory)
+        public void Init(Level level, Player player, LevelSettings levelSettings, CharacterFactory characterFactory,
+            WinLoseOverlay winLoseOverlay)
         {
             _level = level;
             _player = player;
             _levelSettings = levelSettings;
             _characterFactory = characterFactory;
+            _winLoseOverlay = winLoseOverlay;
 
             _currentWave = _levelSettings.waves[_currentWaveIndex];
             EnemySpawnRoutine().Forget();
@@ -51,6 +55,7 @@ namespace Levels
                 
                 await UniTask.Yield();
             }
+            _winLoseOverlay.Show();
         }
 
         private bool ShouldSpawnNewWave()

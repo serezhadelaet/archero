@@ -17,12 +17,13 @@ namespace Entities
         
         private Collider[] _collBuff = new Collider[30];
         private float _lastAttackTime;
+        private WinLoseOverlay _winLoseOverlay;
 
         [Inject]
-        private void Construct(Joystick joystick, GameOverlay gameOverlay)
+        private void Construct(Joystick joystick, GameOverlay gameOverlay, WinLoseOverlay winLoseOverlay)
         {
+            _winLoseOverlay = winLoseOverlay;
             animations.OnAttacked += Attack;
-
             movement.Init(joystick, navAgent, animations);
             SetupOverlay(gameOverlay);
             SetHealth();
@@ -48,6 +49,12 @@ namespace Entities
         {
             base.Heal(hp);
             healingEffect.Play();
+        }
+
+        protected override void OnDead()
+        {
+            base.OnDead();
+            _winLoseOverlay.Show();
         }
 
         protected override void Update()

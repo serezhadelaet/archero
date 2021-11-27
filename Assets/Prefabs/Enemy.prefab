@@ -64,8 +64,8 @@ MonoBehaviour:
   healthBar: {fileID: 3407573283103654445}
   playerProgressionFollower: {fileID: 11400000, guid: ce42a41c7d0efda439b9258363db2a06, type: 2}
   attackRange: 10
-  followRange: 4
-  stopDistance: 2
+  followRange: 5
+  stopDistance: 3
 --- !u!195 &5483035119359666743
 NavMeshAgent:
   m_ObjectHideFlags: 0
