@@ -1,14 +1,16 @@
 ﻿using Entities;
+using UnityEngine;
 
 namespace Combat.Projectiles.Modificators
 {
-    public class HealingProjectileModificator : IProjectileModificator
+    [CreateAssetMenu]
+    public class HealingProjectileModificator : ScriptableObject, IProjectileModificator
     {
-        private const float HealingMod = 0.23f;
+        [SerializeField] private float healingMod = 0.23f;
 
         public void ApplyMod(BaseProjectile projectile, BaseCombatEntity combatEntity, float damage)
         {
-            projectile.Owner.Heal(HealingMod * damage);
+            projectile.Owner.Heal(healingMod * damage);
         }
     }
 }

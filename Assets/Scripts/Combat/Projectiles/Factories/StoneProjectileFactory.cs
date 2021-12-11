@@ -6,6 +6,8 @@ namespace Combat.Projectiles.Factories
 {
     public class StoneProjectileFactory : BaseProjectileFactory
     {
+        [SerializeField] private HealingProjectileModificator healingProjectileModificator;
+        
         public override BaseProjectile GetProjectile(BaseProjectile prefab, int level,
             BaseCharacter owner, float damage, LayerMask targetLayerMask)
         {
@@ -25,7 +27,7 @@ namespace Combat.Projectiles.Factories
 
         private void AddHealingMod(BaseProjectile projectile)
         {
-            projectile.Mods.Add(new HealingProjectileModificator());
+            projectile.Mods.Add(healingProjectileModificator);
         }
     }
 }

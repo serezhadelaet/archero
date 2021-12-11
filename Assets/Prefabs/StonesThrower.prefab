@@ -58,4 +58,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6afd3bdf317400984fcd096230aea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staticElectricityProjectileModificator: {fileID: 1455887406952172219, guid: 10b5739de4720db4e84a8535a2df7183, type: 3}
+  healingProjectileModificator: {fileID: 11400000, guid: 7412aedef21cbaa47bc565061b5325cb, type: 2}
