@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Combat.Projectiles.Modificators;
 using Combat.Projectiles.MovingDamagers;
 using Entities;
@@ -16,7 +17,7 @@ namespace Combat.Projectiles
         [SerializeField] private float destroyIn = 2;
         
         public List<IProjectileModificator> Mods = new List<IProjectileModificator>();
-        protected float Damage;
+        public float Damage { get; private set; }
         private Vector3 _direction;
         
         public virtual void Init(BaseCharacter owner, float damage, LayerMask layerMask)
@@ -31,7 +32,7 @@ namespace Combat.Projectiles
         public virtual void Shoot(Vector3 dir, Vector3 targetPos)
         {
             _direction = dir;
-            movingDamager.Init(dir, targetPos, TargetLayerMask, DoHit, Owner);
+            movingDamager?.Init(dir, targetPos, TargetLayerMask, DoHit, Owner);
         }
 
         protected virtual void DoHit(IDamageable damageable, Collider coll)
@@ -50,6 +51,13 @@ namespace Combat.Projectiles
                 return;
             foreach (var mod in Mods)
                 mod.ApplyMod(this, entity, damage);
+        }
+
+        public List<IProjectileModificator> CopyMods()
+        {
+            var tempModsArray = new IProjectileModificator[Mods.Count];
+            Mods.CopyTo(tempModsArray);
+            return tempModsArray.ToList();
         }
     }
 }

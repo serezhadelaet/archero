@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Entities;
 using Extensions;
 using Interfaces;
@@ -6,38 +7,41 @@ using UnityEngine;
 
 namespace Combat.Projectiles.Modificators
 {
-    public class StaticElectricityProjectileModificator : IProjectileModificator
+    public class StaticElectricityProjectileModificator : BaseProjectile, IProjectileModificator
     {
-        private const int ChargesAmount = 3;
-        private const float DamageMod = 35;
-        private const float Radius = 10;
-
-        private Collider[] _collBuf = new Collider[150];
-        private StaticElectricityProjectile _electricityMissile;
+        [SerializeField] private float speed = 100;
+        [SerializeField] private int chargesAmount = 3;
+        [SerializeField] private float damageDecreaseMod = 35;
+        [SerializeField] private float radiusToFindNextTarget = 10;
         
+        private IDamageable _target;
+        private float _lerpTime;
+        private bool _shouldLerp;
+        private Collider[] _collBuf = new Collider[150];
         private float _nextDamage;
         private bool _hasApplied;
         private int _currentCharges;
         private List<IDamageable> _affected = new List<IDamageable>();
 
-        public StaticElectricityProjectileModificator(StaticElectricityProjectile electricityMissile)
+        private void Awake()
         {
-            _electricityMissile = electricityMissile;
-            _electricityMissile.OnArrived += ElectricityMissileOnArrived;
-            _electricityMissile.OnTargetDead += ElectricityMissileOnTargetDead;
+            transform.localPosition = Vector3.zero;
         }
 
         public void ApplyMod(BaseProjectile projectile, BaseCombatEntity entity, float damage)
         {
             if (_hasApplied)
                 return;
+
+            Mods = projectile.CopyMods();
+            Mods.Remove(this);
+            
+            transform.SetParent(null);
             _hasApplied = true;
-            _electricityMissile.gameObject.SetActive(true);
-            _electricityMissile.transform.position = projectile.transform.position;
             _currentCharges++;
             _affected.Add(entity);
             
-            _nextDamage = damage - ((damage / 100f) * DamageMod);
+            _nextDamage = damage - ((damage / 100f) * damageDecreaseMod);
             
             FlyToNextEntity();
         }
@@ -48,10 +52,43 @@ namespace Combat.Projectiles.Modificators
             if (nextNearest != null)
             {
                 _affected.Add(nextNearest);
-                _electricityMissile.SetNextTarget(nextNearest);
+                SetNextTarget(nextNearest);
             }
         }
 
+        private void SetNextTarget(IDamageable target)
+        {
+            _target = target;
+            _shouldLerp = true;
+            _lerpTime = 0;
+            if (target.IsDead)
+                ElectricityMissileOnTargetDead();
+        }
+        
+        public void Update()
+        {
+            if (!_shouldLerp)
+                return;
+
+            _lerpTime += Time.deltaTime * speed;
+
+            if (_lerpTime < 1)
+                transform.position = Vector3.Lerp(transform.position, _target.transform.position, _lerpTime);
+            else
+                OnLerpEnd();
+        }
+
+        private void OnLerpEnd()
+        {
+            _shouldLerp = false;
+            ElectricityMissileOnArrived(_target);
+        }
+
+        private void Kill()
+        {
+            Destroy(gameObject);
+        }
+        
         private void ElectricityMissileOnTargetDead()
         {
             FlyToNextEntity();
@@ -59,23 +96,23 @@ namespace Combat.Projectiles.Modificators
         
         private void ElectricityMissileOnArrived(IDamageable target)
         {
-            target.TakeDamage(new HitInfo(_electricityMissile, _nextDamage, _electricityMissile.Owner));
+            target.TakeDamage(new HitInfo(this, _nextDamage, Owner));
             _currentCharges++;
-            if (ChargesAmount >= _currentCharges)
+            if (chargesAmount >= _currentCharges)
             {
-                _nextDamage = _nextDamage - ((_nextDamage / 100f) * DamageMod);
+                _nextDamage = _nextDamage - ((_nextDamage / 100f) * damageDecreaseMod);
                 FlyToNextEntity();
             }
             else
             {
-                _electricityMissile.Kill();
+                Kill();
             }
         }
 
         private IDamageable GetNearestCharacter()
         {
             var lastPos = _affected[_affected.Count - 1].transform.position;
-            var count = Physics.OverlapSphereNonAlloc(lastPos, Radius, _collBuf, _electricityMissile.TargetLayerMask);
+            var count = Physics.OverlapSphereNonAlloc(lastPos, radiusToFindNextTarget, _collBuf, TargetLayerMask);
             var minDistance = float.MaxValue;
             IDamageable nearestDamageable = null;
             for (int i = 0; i < count; i++)
@@ -94,7 +131,7 @@ namespace Combat.Projectiles.Modificators
 
             if (nearestDamageable == null)
             {
-                _electricityMissile.Kill();
+                Kill();
             }
             return nearestDamageable;
         }

@@ -112,7 +112,7 @@ namespace Entities
             {
                 var coll = _collBuff[i];
                 var combatEntity = coll.GetDamageable();
-                if (combatEntity != null && combatEntity.IsDead)
+                if (combatEntity == null || combatEntity.IsDead)
                     continue;
 
                 if (!CanSee(coll.transform.position))

@@ -1,27 +1,45 @@
 ﻿using Combat.Projectiles.Modificators;
+using Entities;
 using UnityEngine;
 
 namespace Combat.Projectiles.Factories
 {
     public class ArrowProjectileFactory : BaseProjectileFactory
     {
-        [SerializeField] private StaticElectricityProjectile staticElectricityArrow;
+        [SerializeField] private StaticElectricityProjectileModificator staticElectricityProjectileModificator;
 
-        public override BaseProjectile GetProjectile(BaseProjectile prefab, int level)
+        public override BaseProjectile GetProjectile(BaseProjectile prefab, int level,
+            BaseCharacter owner, float damage, LayerMask targetLayerMask)
         {
-            BaseProjectile projectile;
+            var projectile = GetDefaultProjectile(prefab, owner, damage, targetLayerMask);;
+            
             switch (level)
             {
                 case 2:
-                    projectile = Instantiate(staticElectricityArrow);
+                    AddStaticElectricityMod(projectile);
+                    
                     return projectile;
                 case 3:
-                    projectile = Instantiate(staticElectricityArrow);
-                    projectile.Mods.Add(new HealingProjectileModificator());
+                    AddStaticElectricityMod(projectile);
+                    AddHealingMod(projectile);
+                    
                     return projectile;
             }
             
-            return Instantiate(prefab, transform.position, default);
+            return projectile;
+        }
+
+        private void AddStaticElectricityMod(BaseProjectile projectile)
+        {
+            var mod = Instantiate(staticElectricityProjectileModificator, transform.position, default);
+            mod.transform.SetParent(projectile.transform);
+            mod.Init(projectile.Owner, projectile.Damage, projectile.TargetLayerMask);
+            projectile.Mods.Add(mod);
+        }
+
+        private void AddHealingMod(BaseProjectile projectile)
+        {
+            projectile.Mods.Add(new HealingProjectileModificator());
         }
     }
 }
