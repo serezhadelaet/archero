@@ -129,7 +129,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 6.5
-  m_Acceleration: 25
+  m_Acceleration: 5000
   avoidancePriority: 50
   m_AngularSpeed: 720
   m_StoppingDistance: 0
@@ -1146,6 +1146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2679973489962313628}
   attackSpeed: 2.5
+  moveSpeedMod: 2
 --- !u!114 &3190992729112108050
 MonoBehaviour:
   m_ObjectHideFlags: 0

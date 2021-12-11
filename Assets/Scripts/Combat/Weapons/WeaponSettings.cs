@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Combat
+namespace Combat.Weapons
 {
     [CreateAssetMenu]
     public class WeaponSettings : ScriptableObject

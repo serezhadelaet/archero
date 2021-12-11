@@ -95,9 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291f80a6497d4140bccb1e2a47ec1a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: -5525076592888009898, guid: 983d83a45c234924893604474850c72e, type: 3}
-  onAttackEffect: {fileID: 8040978905455299817, guid: 4de79de4324cffa48be8a9dd1874f028, type: 3}
+  defaultProjectile: {fileID: -5525076592888009898, guid: 983d83a45c234924893604474850c72e, type: 3}
   projectileFactory: {fileID: 998469152273578812}
+  onAttackEffect: {fileID: 8040978905455299817, guid: 4de79de4324cffa48be8a9dd1874f028, type: 3}
 --- !u!114 &998469152273578812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,4 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7d6405c4cbc1d940892dfeabcce71b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staticElectricityArrow: {fileID: 4079709073178904896, guid: 10b5739de4720db4e84a8535a2df7183, type: 3}
+  staticElectricityArrow: {fileID: 7804298879446350847, guid: 10b5739de4720db4e84a8535a2df7183, type: 3}

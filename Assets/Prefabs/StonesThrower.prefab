@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074c404fe0bbf4b44b761a23bd26295a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoneProjectile: {fileID: 2549399605998182286, guid: 2ba2387bd107f0c49a52b2ade5623d6b, type: 3}
+  defaultProjectile: {fileID: 2549399605998182286, guid: 2ba2387bd107f0c49a52b2ade5623d6b, type: 3}
   projectileFactory: {fileID: 2674678285375508974}
 --- !u!114 &2674678285375508974
 MonoBehaviour:
@@ -58,4 +58,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6afd3bdf317400984fcd096230aea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staticElectricityStonePrefab: {fileID: 1930189978805195386, guid: 76dcbe3b7a5ddc34394dda5956a8c685, type: 3}
+  staticElectricityStonePrefab: {fileID: 5973023534557473392, guid: 76dcbe3b7a5ddc34394dda5956a8c685, type: 3}

@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace Combat.Projectiles
+namespace Combat.Projectiles.Modificators
 {
     public interface IProjectileModificator
     {

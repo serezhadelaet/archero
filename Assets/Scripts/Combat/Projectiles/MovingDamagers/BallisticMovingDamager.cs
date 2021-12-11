@@ -1,6 +1,5 @@
 ﻿using System;
 using Interfaces;
-using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

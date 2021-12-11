@@ -9,18 +9,21 @@ namespace Helpers
     {
         [SerializeField] private Animator animator;
         [SerializeField] private float attackSpeed = 1;
+        [SerializeField] private float moveSpeedMod = 1;
         
         private static readonly int AttackBool = Animator.StringToHash("IsAttacking");
         private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
         private static readonly int OnHit1 = Animator.StringToHash("OnHit1");
         private static readonly int OnHit2 = Animator.StringToHash("OnHit2");
         private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
-
+        private static readonly int MoveSpeedMod = Animator.StringToHash("MoveSpeedMod");
+        
         public event Action OnAttacked;
 
         private void OnEnable()
         {
             animator.SetFloat(AttackSpeed, attackSpeed);
+            animator.SetFloat(MoveSpeedMod, moveSpeedMod);
         }
 
         private void OnValidate()

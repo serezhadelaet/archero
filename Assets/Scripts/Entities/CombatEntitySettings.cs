@@ -1,4 +1,5 @@
 ﻿using Combat;
+using Combat.Weapons;
 using UnityEngine;
 
 namespace Entities

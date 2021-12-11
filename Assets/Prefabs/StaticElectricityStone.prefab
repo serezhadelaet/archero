@@ -4940,8 +4940,8 @@ GameObject:
   - component: {fileID: 8402652968339850167}
   - component: {fileID: 8517043191443014701}
   - component: {fileID: 8523932031654731623}
-  - component: {fileID: 1930189978805195386}
-  - component: {fileID: 8295355792939907822}
+  - component: {fileID: 5973023534557473392}
+  - component: {fileID: 1547820847238828808}
   m_Layer: 0
   m_Name: StaticElectricityStone
   m_TagString: Untagged
@@ -9819,7 +9819,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1930189978805195386
+--- !u!114 &5973023534557473392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9828,13 +9828,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8397038857944333381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca8818c21214b638b3d370ae417ed2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a2dcc14fa5793140bfb4e671f622fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingDamager: {fileID: 1547820847238828808}
   destroyIn: 2
-  speed: 20
-  movingDamager: {fileID: 8295355792939907822}
---- !u!114 &8295355792939907822
+  speed: 100
+--- !u!114 &1547820847238828808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9843,15 +9843,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 8397038857944333381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9207e1f2f8724b75839f36ab24d97201, type: 3}
+  m_Script: {fileID: 11500000, guid: a8a9526871b048d3a69495a6aea983b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 1.5
-  randomizeRange: {x: -0.5, y: 1}
-  randomizeLaunchSpeed: 0
-  yOffset: 0.45
-  ballisticStrength: 1
-  rangeOffset: 0.1
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00000000721775
+      value: -0.043245114
+      inSlope: 6.075693
+      outSlope: 6.075693
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5005927
+      value: 2.9982026
+      inSlope: -0.007209301
+      outSlope: -0.007209301
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0000002
+      value: -0.043245114
+      inSlope: -7.142397
+      outSlope: -7.142397
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.3925653
+      value: -3.2601905
+      inSlope: -8.194682
+      outSlope: -8.194682
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flySpeed: 1
+  targetYOffset: 1.2
 --- !u!1 &8397058403502419291
 GameObject:
   m_ObjectHideFlags: 0

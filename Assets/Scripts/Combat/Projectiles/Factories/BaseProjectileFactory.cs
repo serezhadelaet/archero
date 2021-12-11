@@ -1,7 +1,6 @@
-﻿using Combat.Projectiles;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Combat
+namespace Combat.Projectiles.Factories
 {
     public abstract class BaseProjectileFactory : MonoBehaviour
     {

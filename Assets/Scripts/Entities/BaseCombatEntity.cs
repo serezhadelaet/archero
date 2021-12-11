@@ -11,7 +11,6 @@ namespace Entities
         
         public event Action OnDeath;
         public event Action<float> OnHealthChanged;
-        public bool IsDead() => _health <= 0;
         protected float Health
         {
             get => _health;
@@ -24,7 +23,7 @@ namespace Entities
 
         private float _maxHealth;
         private float _health;
-        
+
         protected virtual void SetHealth()
         {
             _maxHealth = combatSettings.health;
@@ -33,7 +32,7 @@ namespace Entities
 
         public virtual void TakeDamage(HitInfo hitInfo)
         {
-            if (IsDead() || (hitInfo.Initiator == this && !CanDamageMyself()))
+            if (IsDead || (hitInfo.Initiator == this && !CanDamageMyself()))
                 return;
             
             if (hitInfo.Damage > 0)
@@ -46,15 +45,17 @@ namespace Entities
                     OnDead();
                 }
                 
-                hitInfo.Projectile.OnHit(this, hitInfo.Damage);
+                hitInfo.Projectile.OnAfterHit(this, hitInfo.Damage);
             }
         }
+
+        public bool IsDead => _health <= 0;
 
         protected virtual void OnDead() { }
         
         public virtual void Heal(float hp)
         {
-            if (!IsDead())
+            if (!IsDead)
                 Health = Mathf.Min(_health + hp, _maxHealth);
         }
 

@@ -844,6 +844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8737731112955801542}
   attackSpeed: 1
+  moveSpeedMod: 1
 --- !u!114 &9122370447658840304
 MonoBehaviour:
   m_ObjectHideFlags: 0

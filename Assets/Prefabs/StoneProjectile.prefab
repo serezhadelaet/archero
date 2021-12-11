@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1968918161321004523}
   - component: {fileID: 2549399605998182286}
-  - component: {fileID: 4618852859803494392}
+  - component: {fileID: 6348788267162641913}
   m_Layer: 0
   m_Name: StoneProjectile
   m_TagString: Untagged
@@ -45,10 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8189a257824a31b925efc2723747e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingDamager: {fileID: 6348788267162641913}
   destroyIn: 2
-  movingDamager: {fileID: 4618852859803494392}
   hitEffect: {fileID: 3178649717935178258, guid: f0f6daf985d0a9a49a54059fb75fc6fe, type: 3}
---- !u!114 &4618852859803494392
+  trails:
+  - {fileID: 7805477396197206119}
+  - {fileID: 7803648348998185843}
+  - {fileID: 4185023754555484245}
+--- !u!114 &6348788267162641913
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,15 +61,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 5716246774851158117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9207e1f2f8724b75839f36ab24d97201, type: 3}
+  m_Script: {fileID: 11500000, guid: a8a9526871b048d3a69495a6aea983b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 1.5
-  randomizeRange: {x: -0.5, y: 1}
-  randomizeLaunchSpeed: 0
-  yOffset: 0.45
-  ballisticStrength: 1
-  rangeOffset: 0.1
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00000000721775
+      value: -0.043245114
+      inSlope: 6.075693
+      outSlope: 6.075693
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5005927
+      value: 2.9982026
+      inSlope: -0.007209301
+      outSlope: -0.007209301
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0000002
+      value: -0.043245114
+      inSlope: -7.142397
+      outSlope: -7.142397
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.3925653
+      value: -3.2601905
+      inSlope: -8.194682
+      outSlope: -8.194682
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flySpeed: 1
+  targetYOffset: 1.2
 --- !u!1001 &4689088748096838816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,5 +169,20 @@ PrefabInstance:
 --- !u!4 &7804129513883243357 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3269379334262018045, guid: 36ca4104eece4ce4d878e1e02ade7c74, type: 3}
+  m_PrefabInstance: {fileID: 4689088748096838816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7805477396197206119 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3260708425335256263, guid: 36ca4104eece4ce4d878e1e02ade7c74, type: 3}
+  m_PrefabInstance: {fileID: 4689088748096838816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7803648348998185843 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3269293975777734611, guid: 36ca4104eece4ce4d878e1e02ade7c74, type: 3}
+  m_PrefabInstance: {fileID: 4689088748096838816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4185023754555484245 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8864999077227410677, guid: 36ca4104eece4ce4d878e1e02ade7c74, type: 3}
   m_PrefabInstance: {fileID: 4689088748096838816}
   m_PrefabAsset: {fileID: 0}

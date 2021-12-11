@@ -1,18 +1,19 @@
 ﻿using System;
-using Combat.Projectiles;
+using Combat.Projectiles.Modificators;
 using Entities;
+using Interfaces;
 using UnityEngine;
 
-namespace Combat
+namespace Combat.Projectiles
 {
-    public class StaticElectricityMissileProjectile : BaseProjectile
+    public class StaticElectricityProjectile : BaseProjectile
     {
         public event Action OnTargetDead;
-        public event Action<BaseCombatEntity> OnArrived;
+        public event Action<IDamageable> OnArrived;
 
         [SerializeField] private float speed = 100;
         
-        private BaseCombatEntity _target;
+        private IDamageable _target;
         private float _lerpTime;
         private bool _shouldLerp;
 
@@ -22,12 +23,12 @@ namespace Combat
             base.Init(owner, damage, layerMask);
         }
 
-        public void SetNextTarget(BaseCombatEntity target)
+        public void SetNextTarget(IDamageable target)
         {
             _target = target;
             _shouldLerp = true;
             _lerpTime = 0;
-            if (target.IsDead())
+            if (target.IsDead)
                 OnTargetDead.Invoke();
         }
 
@@ -53,6 +54,12 @@ namespace Combat
         public void Kill()
         {
             Destroy(gameObject);
+        }
+
+        protected override void DoHit(IDamageable damageable, Collider coll)
+        {
+            base.DoHit(damageable, coll);
+            movingDamager.IsStopped = true;
         }
     }
 }

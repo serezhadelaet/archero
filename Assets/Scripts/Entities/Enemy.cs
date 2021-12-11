@@ -26,7 +26,7 @@ namespace Entities
         protected override void Update()
         {
             base.Update();
-            if (IsDead())
+            if (IsDead)
                 return;
 
             var distanceToPlayer = Vector3.Distance(CurrentTarget.transform.position, transform.position);

@@ -1,4 +1,6 @@
-﻿using Helpers;
+﻿using Extensions;
+using Helpers;
+using Interfaces;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -61,7 +63,7 @@ namespace Entities
         protected override void Update()
         {
             base.Update();
-            if (IsDead())
+            if (IsDead)
                 return;
             
             InstantiateAttack();
@@ -78,7 +80,7 @@ namespace Entities
             
             _lastAttackTime = Time.time;
             if (CurrentTarget != null)
-            {
+            { 
                 LastTargetPos = CurrentTarget.transform.position;
             }
             
@@ -87,7 +89,7 @@ namespace Entities
 
         private void TryToCancelAttack()
         {
-            if (IsMoving() || !CanSee(LastTargetPos) || (CurrentTarget != null && CurrentTarget.IsDead()))
+            if (IsMoving() || !CanSee(LastTargetPos) || (CurrentTarget != null && CurrentTarget.IsDead))
                 animations.Attack(false);
         }
         
@@ -101,16 +103,16 @@ namespace Entities
             weapon.Attack(LastTargetPos);
         }
 
-        private BaseCombatEntity GetNearestEnemy()
+        private IDamageable GetNearestEnemy()
         {
             var count = Physics.OverlapSphereNonAlloc(transform.position, attackRange, _collBuff, targetLayer);
             var minDistance = float.MaxValue;
-            BaseCombatEntity nearestEntity = null;
+            IDamageable nearestDamageable = null;
             for (int i = 0; i < count; i++)
             {
                 var coll = _collBuff[i];
-                var combatEntity = coll.GetComponentInParent<BaseCombatEntity>();
-                if (combatEntity.IsDead())
+                var combatEntity = coll.GetDamageable();
+                if (combatEntity != null && combatEntity.IsDead)
                     continue;
 
                 if (!CanSee(coll.transform.position))
@@ -120,14 +122,14 @@ namespace Entities
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    nearestEntity = combatEntity;
+                    nearestDamageable = combatEntity;
                 }
             }
 
-            return nearestEntity;
+            return nearestDamageable;
         }
 
-        protected override bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && CurrentTarget;
+        protected override bool ShouldFollowTarget() => !IsMoving() && animations.IsAttacking() && CurrentTarget != null;
         private bool IsMoving() => Input.GetMouseButton(0);
         private bool CanAttack() => !animations.IsAttacking() && !IsMoving() && Time.time > _lastAttackTime + AttackCooldown;
         private bool CanSee(Vector3 pos) => !Physics.Linecast(transform.position, pos, obstacleLayer);

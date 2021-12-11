@@ -21,9 +21,10 @@ namespace Helpers
             if (!_navAgent.enabled)
                 return;
             
-            var offset = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
+            var normalizedDirection = _joystick.Direction.normalized;
+            var offset = new Vector3(normalizedDirection.x, 0, normalizedDirection.y);
             _navAgent.SetDestination(transform.position + offset);
-            _animations.SetRunSpeed(offset.magnitude);
+            _animations.SetRunSpeed(_navAgent.velocity.magnitude);
         }
         
         private void Update()

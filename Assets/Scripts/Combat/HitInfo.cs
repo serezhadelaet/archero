@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Combat
 {
-    public struct HitInfo
+    public readonly struct HitInfo
     {
-        public BaseProjectile Projectile;
-        public float Damage;
-        public BaseCombatEntity Initiator;
-        public Collider HitCollider;
-        public Vector3 ForceDir;
+        public readonly BaseProjectile Projectile;
+        public readonly float Damage;
+        public readonly BaseCombatEntity Initiator;
+        public readonly Collider HitCollider;
+        public readonly Vector3 ForceDir;
 
         public HitInfo(BaseProjectile projectile, float damage, BaseCombatEntity initiator, Collider hitCollider = null,
             Vector3 forceDir = default)

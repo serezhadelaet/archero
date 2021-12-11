@@ -1,24 +1,28 @@
-﻿using Combat.Projectiles.MovingDamagers;
-using Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 
 namespace Combat.Projectiles
 {
     public class StoneProjectile : BaseProjectile
     {
-        [SerializeField] private MovingDamager movingDamager;
         [SerializeField] private GameObject hitEffect;
+        [SerializeField] private Transform[] trails;
         
-        public override void Shoot(Vector3 dir, Vector3 targetPos)
+        protected override void DoHit(IDamageable damageable, Collider coll)
         {
-            movingDamager.Init(dir, targetPos, TargetLayerMask, DoHit, Owner);
-        }
-        
-        private void DoHit(IDamageable damageable, Collider coll)
-        {
-            damageable?.TakeDamage(new HitInfo(this, Damage, Owner, coll, Vector3.one));
+            base.DoHit(damageable, coll);
             Instantiate(hitEffect, transform.position, default);
+            FreeTrails();
             Destroy(gameObject);
+        }
+
+        private void FreeTrails()
+        {
+            foreach (var trail in trails)
+            {
+                trail.SetParent(null);
+                Destroy(trail.gameObject, 0.5f);
+            }
         }
     }
 }

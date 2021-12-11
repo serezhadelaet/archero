@@ -1,22 +1,19 @@
-﻿using Combat.Projectiles;
+﻿using Combat.Projectiles.Modificators;
 using UnityEngine;
 
-namespace Combat
+namespace Combat.Projectiles.Factories
 {
-    public class ArrowProjectileFactory : BaseProjectileFactory
+    public class StoneProjectileFactory : BaseProjectileFactory
     {
-        [SerializeField] private StaticElectricityArrow staticElectricityArrow;
-
+        [SerializeField] private StaticElectricityProjectile staticElectricityStonePrefab;
+        
         public override BaseProjectile GetProjectile(BaseProjectile prefab, int level)
         {
-            BaseProjectile projectile;
             switch (level)
             {
                 case 2:
-                    projectile = Instantiate(staticElectricityArrow);
-                    return projectile;
                 case 3:
-                    projectile = Instantiate(staticElectricityArrow);
+                    var projectile = Instantiate(prefab, transform.position, default);
                     projectile.Mods.Add(new HealingProjectileModificator());
                     return projectile;
             }

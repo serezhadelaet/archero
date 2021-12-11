@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Extensions;
+using Interfaces;
 using UnityEngine;
 
-namespace Combat.Projectiles
+namespace Combat.Projectiles.Modificators
 {
     public class StaticElectricityProjectileModificator : IProjectileModificator
     {
@@ -11,14 +13,14 @@ namespace Combat.Projectiles
         private const float Radius = 10;
 
         private Collider[] _collBuf = new Collider[150];
-        private StaticElectricityMissileProjectile _electricityMissile;
+        private StaticElectricityProjectile _electricityMissile;
         
         private float _nextDamage;
         private bool _hasApplied;
         private int _currentCharges;
-        private List<BaseCombatEntity> _affected = new List<BaseCombatEntity>();
+        private List<IDamageable> _affected = new List<IDamageable>();
 
-        public StaticElectricityProjectileModificator(StaticElectricityMissileProjectile electricityMissile)
+        public StaticElectricityProjectileModificator(StaticElectricityProjectile electricityMissile)
         {
             _electricityMissile = electricityMissile;
             _electricityMissile.OnArrived += ElectricityMissileOnArrived;
@@ -55,7 +57,7 @@ namespace Combat.Projectiles
             FlyToNextEntity();
         }
         
-        private void ElectricityMissileOnArrived(BaseCombatEntity target)
+        private void ElectricityMissileOnArrived(IDamageable target)
         {
             target.TakeDamage(new HitInfo(_electricityMissile, _nextDamage, _electricityMissile.Owner));
             _currentCharges++;
@@ -70,31 +72,31 @@ namespace Combat.Projectiles
             }
         }
 
-        private BaseCombatEntity GetNearestCharacter()
+        private IDamageable GetNearestCharacter()
         {
             var lastPos = _affected[_affected.Count - 1].transform.position;
             var count = Physics.OverlapSphereNonAlloc(lastPos, Radius, _collBuf, _electricityMissile.TargetLayerMask);
             var minDistance = float.MaxValue;
-            BaseCombatEntity nearestEntity = null;
+            IDamageable nearestDamageable = null;
             for (int i = 0; i < count; i++)
             {
                 var coll = _collBuf[i];
-                var combatEntity = coll.GetComponentInParent<BaseCombatEntity>();
-                if (_affected.Contains(combatEntity))
+                var damageable = coll.GetDamageable();
+                if (_affected.Contains(damageable))
                     continue;
                 var distance = Vector3.Distance(lastPos, coll.transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    nearestEntity = combatEntity;
+                    nearestDamageable = damageable;
                 }
             }
 
-            if (nearestEntity == null)
+            if (nearestDamageable == null)
             {
                 _electricityMissile.Kill();
             }
-            return nearestEntity;
+            return nearestDamageable;
         }
     }
 }

@@ -1,25 +1,13 @@
-﻿using Combat.Projectiles.MovingDamagers;
-using Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 
 namespace Combat.Projectiles
 {
     public class Arrow : BaseProjectile
     {
-        [SerializeField] private MovingDamager movingDamager;
-
-        private Vector3 _direction;
-        
-        public override void Shoot(Vector3 direction, Vector3 targetPos)
+        protected override void DoHit(IDamageable damageable, Collider coll)
         {
-            base.Shoot(direction, targetPos);
-            _direction = direction;
-            movingDamager.Init(direction, targetPos ,TargetLayerMask, DoHit, Owner);
-        }
-
-        private void DoHit(IDamageable damageable, Collider coll)
-        {
-            damageable?.TakeDamage(new HitInfo(this, Damage, Owner, coll, _direction));
+            base.DoHit(damageable, coll);
             Destroy(gameObject);
         }
     }

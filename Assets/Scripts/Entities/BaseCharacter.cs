@@ -1,5 +1,7 @@
 ﻿using Combat;
+using Combat.Weapons;
 using Helpers;
+using Interfaces;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,7 +21,7 @@ namespace Entities
         
         private HitInfo _lastHit;
         protected Vector3 LastTargetPos;
-        protected BaseCombatEntity CurrentTarget;
+        protected IDamageable CurrentTarget;
         protected int Level;
         
         private void Awake()
@@ -47,7 +49,7 @@ namespace Entities
         {
             base.TakeDamage(hitInfo);
             
-            if (IsDead())
+            if (IsDead)
                 return;
             
             animations.OnHit();
@@ -63,7 +65,7 @@ namespace Entities
 
         protected virtual void Update()
         {
-            if (IsDead())
+            if (IsDead)
                 return;
             
             FollowTarget();
