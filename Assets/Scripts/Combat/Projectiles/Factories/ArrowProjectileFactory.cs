@@ -6,13 +6,13 @@ namespace Combat.Projectiles.Factories
 {
     public class ArrowProjectileFactory : BaseProjectileFactory
     {
-        [SerializeField] private StaticElectricityProjectileModificator staticElectricityProjectileModificator;
+        [SerializeField] private StaticElectricityProjectilePool staticElectricityProjectilePool;
         [SerializeField] private HealingProjectileModificator healingProjectileModificator;
         
-        public override BaseProjectile GetProjectile(BaseProjectile prefab, int level,
+        public override BaseProjectile GetProjectile(int level, 
             BaseCharacter owner, float damage, LayerMask targetLayerMask)
         {
-            var projectile = GetDefaultProjectile(prefab, owner, damage, targetLayerMask);;
+            var projectile = GetDefaultProjectile(owner, damage, targetLayerMask);;
             
             switch (level)
             {
@@ -32,10 +32,12 @@ namespace Combat.Projectiles.Factories
 
         private void AddStaticElectricityMod(BaseProjectile projectile)
         {
-            var mod = Instantiate(staticElectricityProjectileModificator, transform.position, default);
+            var mod = staticElectricityProjectilePool.Get();
             mod.transform.SetParent(projectile.transform);
+            mod.transform.localPosition = default;
+            mod.transform.localRotation = default;
             mod.Init(projectile.Owner, projectile.Damage, projectile.TargetLayerMask);
-            projectile.Mods.Add(mod);
+            projectile.Mods.Add(mod as IProjectileModificator);
         }
 
         private void AddHealingMod(BaseProjectile projectile)

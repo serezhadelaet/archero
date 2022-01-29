@@ -7,7 +7,6 @@ namespace Combat.Weapons
 {
     public abstract class BaseWeapon : MonoBehaviour
     {
-        [SerializeField] private BaseProjectile defaultProjectile;
         [SerializeField] private BaseProjectileFactory projectileFactory;
         
         private WeaponSettings _weaponSettings;
@@ -30,8 +29,7 @@ namespace Combat.Weapons
 
         public virtual void Attack(Vector3 pos)
         {
-            var projectile = projectileFactory.GetProjectile(defaultProjectile, _level, 
-                _owner, _weaponSettings.damage, _targetLayerMask);
+            var projectile = projectileFactory.GetProjectile(_level, _owner, _weaponSettings.damage, _targetLayerMask);
             projectile.transform.position = transform.position;
             Direction = (new Vector3(pos.x, transform.position.y, pos.z) - transform.position).normalized;
             projectile.Shoot(Direction, pos);

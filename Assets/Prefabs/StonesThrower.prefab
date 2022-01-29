@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074c404fe0bbf4b44b761a23bd26295a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultProjectile: {fileID: 2549399605998182286, guid: 2ba2387bd107f0c49a52b2ade5623d6b, type: 3}
   projectileFactory: {fileID: 2674678285375508974}
 --- !u!114 &2674678285375508974
 MonoBehaviour:
@@ -58,4 +57,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6afd3bdf317400984fcd096230aea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePool: {fileID: 11400000, guid: 90b11fee6f3fe45478e446423b836b8f, type: 2}
   healingProjectileModificator: {fileID: 11400000, guid: 7412aedef21cbaa47bc565061b5325cb, type: 2}

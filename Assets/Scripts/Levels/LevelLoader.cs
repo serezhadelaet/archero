@@ -7,10 +7,10 @@ namespace Levels
     {
         [SerializeField] private Level[] levels;
         
-        private LevelsFactory _levelsFactory;
+        private PlaceholderFactory<Level, Level> _levelsFactory;
         
         [Inject]
-        private void Construct(LevelsFactory levelsFactory)
+        private void Construct(PlaceholderFactory<Level, Level> levelsFactory)
         {
             _levelsFactory = levelsFactory;
         }

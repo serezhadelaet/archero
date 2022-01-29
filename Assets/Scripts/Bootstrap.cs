@@ -53,7 +53,7 @@ public class Bootstrap : MonoInstaller
     
     private void BindLevelsFactory()
     {
-        Container.BindFactory<Level, Level, LevelsFactory>().FromFactory<PrefabFactory<Level>>();
+        Container.BindFactory<Level, Level, PlaceholderFactory<Level, Level>>().FromFactory<PrefabFactory<Level>>();
     }
 
     private void BindJoystick()

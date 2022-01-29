@@ -12,8 +12,7 @@ namespace Combat.Projectiles
         {
             base.DoHit(damageable, coll);
             Instantiate(hitEffect, transform.position, default);
-            FreeTrails();
-            Destroy(gameObject);
+            ReturnToPool();
         }
 
         private void FreeTrails()

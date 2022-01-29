@@ -20,8 +20,10 @@ namespace Helpers
         {
             if (!_navAgent.enabled)
                 return;
-            
             var normalizedDirection = _joystick.Direction.normalized;
+#if UNITY_EDITOR
+            normalizedDirection += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+#endif
             var offset = new Vector3(normalizedDirection.x, 0, normalizedDirection.y);
             _navAgent.SetDestination(transform.position + offset);
             _animations.SetRunSpeed(_navAgent.velocity.magnitude);

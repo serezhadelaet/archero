@@ -8,10 +8,10 @@ namespace Combat.Projectiles.Factories
     {
         [SerializeField] private HealingProjectileModificator healingProjectileModificator;
         
-        public override BaseProjectile GetProjectile(BaseProjectile prefab, int level,
+        public override BaseProjectile GetProjectile(int level,
             BaseCharacter owner, float damage, LayerMask targetLayerMask)
         {
-            var projectile = GetDefaultProjectile(prefab, owner, damage, targetLayerMask);;
+            var projectile = GetDefaultProjectile(owner, damage, targetLayerMask);;
             
             switch (level)
             {

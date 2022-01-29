@@ -8,7 +8,7 @@ namespace Combat.Projectiles
         protected override void DoHit(IDamageable damageable, Collider coll)
         {
             base.DoHit(damageable, coll);
-            Destroy(gameObject);
+            ReturnToPool();
         }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Combat.Projectiles
 {
-    public abstract class BaseProjectile : MonoBehaviour
+    public abstract class BaseProjectile : MonoBehaviour, IPooled<BaseProjectile>
     {
         public LayerMask TargetLayerMask { get; private set; }
         public BaseCharacter Owner { get; private set; }
@@ -19,17 +19,23 @@ namespace Combat.Projectiles
         public List<IProjectileModificator> Mods = new List<IProjectileModificator>();
         public float Damage { get; private set; }
         private Vector3 _direction;
+        private IPool<BaseProjectile> _pool;
         
-        public virtual void Init(BaseCharacter owner, float damage, LayerMask layerMask)
+        public void Init(BaseCharacter owner, float damage, LayerMask layerMask)
         {
             Owner = owner;
             Damage = damage;
             TargetLayerMask = layerMask;
             
-            Destroy(gameObject, destroyIn);
+            Invoke(nameof(ReturnToPool), destroyIn);
         }
 
-        public virtual void Shoot(Vector3 dir, Vector3 targetPos)
+        protected void ReturnToPool()
+        {
+            _pool.Return(this);
+        }
+
+        public void Shoot(Vector3 dir, Vector3 targetPos)
         {
             _direction = dir;
             movingDamager?.Init(dir, targetPos, TargetLayerMask, DoHit, Owner);
@@ -58,6 +64,16 @@ namespace Combat.Projectiles
             var tempModsArray = new IProjectileModificator[Mods.Count];
             Mods.CopyTo(tempModsArray);
             return tempModsArray.ToList();
+        }
+
+        public void SetPool(IPool<BaseProjectile> pool)
+        {
+            _pool = pool;
+        }
+
+        public void OnReturnToPool()
+        {
+            CancelInvoke(nameof(ReturnToPool));
         }
     }
 }

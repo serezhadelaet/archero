@@ -26,6 +26,7 @@ namespace Combat.Projectiles.MovingDamagers
             _targetLayerMask = layerMask;
             _onHit = onHit;
             _owner = owner;
+            _lastPos = default;
         }
 
         private void DoHit(Collider coll)
