@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74156a282f1e4b67a63443bbc41e1e47, type: 3}
   m_Name: StaticElectricityProjectilePool
   m_EditorClassIdentifier: 
+  defaultAmount: 10
   defaultItem: {fileID: 1455887406952172219, guid: 10b5739de4720db4e84a8535a2df7183, type: 3}

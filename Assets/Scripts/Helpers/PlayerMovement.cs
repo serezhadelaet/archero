@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Entitas.Unity;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Helpers
@@ -8,24 +9,21 @@ namespace Helpers
         private Joystick _joystick;
         private NavMeshAgent _navAgent;
         private CharacterAnimations _animations;
-        
+
         public void Init(Joystick joystick, NavMeshAgent navAgent, CharacterAnimations animations)
         {
             _joystick = joystick;
             _navAgent = navAgent;
             _animations = animations;
+            
+            Contexts.sharedInstance.input.CreateEntity().AddJoystick(_joystick);
+            Contexts.sharedInstance.game.CreateEntity().AddPlayerNavmeshAgent(_navAgent);
         }
         
         private void Moving()
         {
             if (!_navAgent.enabled)
                 return;
-            var normalizedDirection = _joystick.Direction.normalized;
-#if UNITY_EDITOR
-            normalizedDirection += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-#endif
-            var offset = new Vector3(normalizedDirection.x, 0, normalizedDirection.y);
-            _navAgent.SetDestination(transform.position + offset);
             _animations.SetRunSpeed(_navAgent.velocity.magnitude);
         }
         

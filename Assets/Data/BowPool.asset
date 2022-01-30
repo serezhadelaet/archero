@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5462dfc33548648be65d2294cb8f69, type: 3}
   m_Name: BowPool
   m_EditorClassIdentifier: 
+  defaultAmount: 10
   defaultItem: {fileID: -5525076592888009898, guid: 983d83a45c234924893604474850c72e, type: 3}
