@@ -43,7 +43,8 @@ namespace Combat.Projectiles.MovingDamagers
             newPos.y = yCurve.Evaluate(_lerpTime);
             transform.position = newPos;
             var dir = (newPos - TargetPos).normalized;
-            transform.rotation = Quaternion.LookRotation(dir);
+            if (dir != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(dir);
         }
     }
 }
