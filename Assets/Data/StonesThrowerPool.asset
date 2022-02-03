@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5462dfc33548648be65d2294cb8f69, type: 3}
   m_Name: StonesThrowerPool
   m_EditorClassIdentifier: 
+  defaultAmount: 10
   defaultItem: {fileID: 2549399605998182286, guid: 2ba2387bd107f0c49a52b2ade5623d6b, type: 3}
