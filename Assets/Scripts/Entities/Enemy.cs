@@ -1,4 +1,5 @@
-﻿using Helpers;
+﻿using Combat;
+using Helpers;
 using UnityEngine;
 
 namespace Entities
@@ -9,6 +10,7 @@ namespace Entities
         [SerializeField] private float attackRange = 5;
         [SerializeField] private float followRange = 10;
         [SerializeField] private float stopDistance = 2;
+        [SerializeField] private EnemyTakeDamageEvent takeDamageEvent;
         
         public void Init(Player player, CombatEntitySettings combatEntitySettings)
         {
@@ -46,6 +48,12 @@ namespace Entities
             
             navAgent.isStopped = false;    
             navAgent.SetDestination(CurrentTarget.transform.position);
+        }
+
+        public override void TakeDamage(HitInfo hitInfo)
+        {
+            base.TakeDamage(hitInfo);
+            takeDamageEvent.Invoke();
         }
 
         private void TryToAttackPlayer(float distance)

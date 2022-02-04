@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: -6451117711930632318}
   - component: {fileID: 158418315296699448}
   - component: {fileID: 5315261414927262626}
+  - component: {fileID: 5993186701474520182}
+  - component: {fileID: 9164891380452271828}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -111,13 +113,11 @@ MonoBehaviour:
   - {fileID: 2704601173805856198}
   - {fileID: 2704608677905897968}
   healthBar: {fileID: 0}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  attackRange: 8
   healingEffect: {fileID: 3570527978562735811}
   playerProgression: {fileID: 11400000, guid: ce42a41c7d0efda439b9258363db2a06, type: 2}
   movement: {fileID: 5315261414927262626}
+  attack: {fileID: 9164891380452271828}
+  dash: {fileID: 5993186701474520182}
 --- !u!195 &158418315296699448
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -150,6 +150,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c99de1349464dce827d4d82f7f49022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5993186701474520182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669317927337110740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450d4b18dad84640931c5fc6215fa16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dashCurve:
@@ -194,7 +206,24 @@ MonoBehaviour:
   - {fileID: 2772607767043991369}
   - {fileID: 2739847240201089939}
   - {fileID: 2739851969080422655}
-  dashEffect: {fileID: 6740583645946562635, guid: 0dd2ec95b6f50ab478b04c8a76df7ef4, type: 3}
+  dashMaxAmount: 3
+  takeDamageEvent: {fileID: 11400000, guid: 097049e3937e59349b5e5d14560edff2, type: 2}
+--- !u!114 &9164891380452271828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669317927337110740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a56afd04bf4928981a396c8c31e15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  attackRange: 8
 --- !u!1001 &161336583405301309
 PrefabInstance:
   m_ObjectHideFlags: 0

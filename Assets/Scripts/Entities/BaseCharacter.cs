@@ -1,10 +1,12 @@
-﻿using Combat;
+﻿using System;
+using Combat;
 using Combat.Weapons;
 using Helpers;
 using Interfaces;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Entities
 {
@@ -20,8 +22,8 @@ namespace Entities
         [SerializeField] private HealthBar healthBar;
         
         private HitInfo _lastHit;
-        protected Vector3 LastTargetPos;
-        protected IDamageable CurrentTarget;
+        [NonSerialized] public Vector3 LastTargetPos;
+        [NonSerialized] public IDamageable CurrentTarget;
         protected int Level;
         
         private void Awake()
