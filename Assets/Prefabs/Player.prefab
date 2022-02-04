@@ -197,12 +197,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashMaxDistanceFromJoystick: 500
-  joystickRange: 200
   dashSpeed: 30
   dashTime: 0.25
-  dashTimeToRelease: 0.075
-  dashClicksMaxDelay: 0.2
   dashTrail:
   - {fileID: 2772865014342528427}
   - {fileID: 2772607767043991369}
@@ -210,6 +206,7 @@ MonoBehaviour:
   - {fileID: 2739851969080422655}
   dashMaxAmount: 3
   takeDamageEvent: {fileID: 11400000, guid: 097049e3937e59349b5e5d14560edff2, type: 2}
+  dashEvent: {fileID: 11400000, guid: 03cbc380bb6ce2146808edef0a6e8001, type: 2}
 --- !u!114 &9164891380452271828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,7 +1216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2679973489962313628}
-  attackSpeed: 2.5
+  attackSpeed: 3.5
   moveSpeedMod: 2
 --- !u!114 &3190992729112108050
 MonoBehaviour:

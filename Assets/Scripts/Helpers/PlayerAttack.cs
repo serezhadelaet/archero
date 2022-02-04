@@ -50,24 +50,27 @@ namespace Helpers
         
         private void InstantiateAttack()
         {
-            var nearestEnemy = GetNearestEnemy();
-            if (nearestEnemy != null)
-                _player.CurrentTarget = nearestEnemy;
             if (!CanAttack())
                 return;
             
-            _lastAttackTime = Time.time;
-            if (_player.CurrentTarget != null)
-            { 
-                _player.LastTargetPos = _player.CurrentTarget.transform.position;
+            var nearestEnemy = GetNearestEnemy();
+            if (nearestEnemy == null)
+            {
+                _player.CurrentTarget = null;
+                return;
             }
             
-            _animations.Attack(_player.CurrentTarget != null);
+            _player.CurrentTarget = nearestEnemy;
+            _lastAttackTime = Time.time;
+            _player.LastTargetPos = _player.CurrentTarget.transform.position;
+
+            _animations.Attack(true);
         }
 
         private void TryToCancelAttack()
         {
-            if (IsMoving() 
+            if (_player.CurrentTarget == null 
+                || IsMoving() 
                 || !CanSee(_player.LastTargetPos) 
                 || (_player.CurrentTarget != null && _player.CurrentTarget.IsDead))
                 _animations.Attack(false);
