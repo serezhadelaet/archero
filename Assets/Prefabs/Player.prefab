@@ -197,10 +197,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashJoystickDistanceThreshold: 1.25
+  dashMaxDistanceFromJoystick: 500
+  joystickRange: 200
   dashSpeed: 30
   dashTime: 0.25
   dashTimeToRelease: 0.075
+  dashClicksMaxDelay: 0.2
   dashTrail:
   - {fileID: 2772865014342528427}
   - {fileID: 2772607767043991369}

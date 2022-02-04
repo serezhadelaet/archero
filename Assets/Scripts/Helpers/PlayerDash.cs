@@ -9,10 +9,12 @@ namespace Helpers
     public class PlayerDash : MonoBehaviour
     {
         [SerializeField] private AnimationCurve dashCurve;
-        [SerializeField] private float dashJoystickDistanceThreshold = 0.5f;
+        [SerializeField] private float dashMaxDistanceFromJoystick = 10f;
+        [SerializeField] private float joystickRange = 10f;
         [SerializeField] private float dashSpeed = 20;
         [SerializeField] private float dashTime = 0.5f;
         [SerializeField] private float dashTimeToRelease = 0.1f;
+        [SerializeField] private float dashClicksMaxDelay = 0.1f;
         [SerializeField] private ParticleSystem[] dashTrail;
         [SerializeField] private int dashMaxAmount = 3;
         [SerializeField] private EnemyTakeDamageEvent takeDamageEvent;
@@ -28,10 +30,13 @@ namespace Helpers
         private float _initialSpeed;
         private Dictionary<ParticleSystem, float> _defaultDashTrailEmissionRate = new Dictionary<ParticleSystem, float>();
         private int _dashCounter;
+        private int _clicksCounter;
+        private float _lastClickTime;
         
         private NavMeshAgent _navAgent;
         private Joystick _joystick;
         private GameOverlay _gameOverlay;
+        private RectTransform _joystickRect;
         
         private int DashCounter
         {
@@ -49,6 +54,7 @@ namespace Helpers
             _joystick = joystick;
             _gameOverlay = gameOverlay;
             _initialSpeed = _navAgent.speed;
+            _joystickRect = joystick.GetComponent<RectTransform>();
             
             foreach (var effect in dashTrail)
                 _defaultDashTrailEmissionRate[effect] = effect.emission.rateOverDistanceMultiplier;
@@ -85,10 +91,24 @@ namespace Helpers
         {
             if (!CanPerformDash())
                 return;
-            if (Vector3.Distance(_joystick.Direction,_lastJoystickDir) > dashJoystickDistanceThreshold)
+
+            if (!Input.GetMouseButtonDown(0))
+                return;
+            
+            var inputPos = Input.mousePosition;
+            var distance = Vector3.Distance(_joystickRect.position, inputPos);
+            if (_joystick.Direction == Vector2.zero && distance > joystickRange && distance < dashMaxDistanceFromJoystick)
             {
+                if (_clicksCounter == 1 && Time.time - _lastClickTime > dashClicksMaxDelay)
+                    _clicksCounter = 0;
+                _clicksCounter++;
+                _lastClickTime = Time.time;   
+                if (_clicksCounter < 2)
+                    return;
+                
+                _clicksCounter = 0;
                 DashCounter++;
-                _dashDirection = _joystick.Direction.normalized;
+                _dashDirection = (inputPos - _joystickRect.position).normalized;
                 _dashTime = 1;
                 EnableTrail(true);
                 _canDash = false;
@@ -108,10 +128,7 @@ namespace Helpers
         {
             while (_dashTime > 0)
             {
-                var currentDir = _joystick.Direction.normalized;
-                if (currentDir == Vector2.zero || !Input.GetMouseButton(0))
-                    currentDir = _dashDirection;
-                var offset = new Vector3(currentDir.x, 0, currentDir.y);
+                var offset = new Vector3(_dashDirection.x, 0, _dashDirection.y);
                 _navAgent.SetDestination(transform.position + offset);
                 _navAgent.speed = dashCurve.Evaluate(1 - _dashTime) * dashSpeed;
                 _dashTime -= Time.deltaTime * (1 / dashTime);

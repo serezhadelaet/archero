@@ -8,8 +8,6 @@ namespace Helpers
 {
     public class PlayerAttack : MonoBehaviour
     {
-        public event Action OnAttack;
-        
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private float attackRange = 10;
         
@@ -22,14 +20,16 @@ namespace Helpers
         private Player _player;
         private LayerMask _targetLayer;
         private PlayerProgressionFollower _playerProgression;
+        private PlayerDash _dash;
         
         public void Init(CharacterAnimations animations, Player player, LayerMask targetLayer,
-            PlayerProgressionFollower playerProgressionFollower)
+            PlayerProgressionFollower playerProgressionFollower, PlayerDash dash)
         {
             _animations = animations;
             _player = player;
             _targetLayer = targetLayer;
             _playerProgression = playerProgressionFollower;
+            _dash = dash;
             
             animations.OnAttacked += Attack;
         }
@@ -82,8 +82,6 @@ namespace Helpers
             var weapon = _player.GetWeapon();
             weapon.SetLevel(_playerProgression.GetLevel());
             weapon.Attack(_player.LastTargetPos);
-            
-            OnAttack?.Invoke();
         }
         
         private IDamageable GetNearestEnemy()
@@ -112,7 +110,7 @@ namespace Helpers
             return nearestDamageable;
         }
         
-        private bool IsMoving() => Input.GetMouseButton(0);
+        private bool IsMoving() => Input.GetMouseButton(0) || _dash.IsDashing();
         private bool CanAttack() => !_animations.IsAttacking() && !IsMoving() && Time.time > _lastAttackTime + AttackCooldown;
         private bool CanSee(Vector3 pos) => !Physics.Linecast(transform.position, pos, obstacleLayer);
     }

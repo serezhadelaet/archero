@@ -408,6 +408,9 @@ MonoBehaviour:
   expText: {fileID: 5895118950561179143}
   lvlText: {fileID: 8379444522918351284}
   dashImage: {fileID: 2562797271054799207}
+  dashFillDuration: 0.15
+  topDashColor: {r: 0.87058824, g: 0.7607843, b: 1, a: 1}
+  bottomDashColor: {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
 --- !u!1 &5414380789156244871
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.8235294}
+  m_Color: {r: 0.87058824, g: 0.7607843, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

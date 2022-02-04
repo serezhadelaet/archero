@@ -12,6 +12,9 @@ namespace UI
         [SerializeField] private TextMeshProUGUI lvlText;
         [SerializeField] private Image dashImage;
         [SerializeField] private float dashFillDuration = 0.15f;
+        [SerializeField] private Color topDashColor;
+        [SerializeField] private Color bottomDashColor;
+        
         private Tween _dashTween;
         
         public void UpdateExp(int exp)
@@ -33,7 +36,11 @@ namespace UI
         {
             _dashTween?.Kill();
             _dashTween = dashImage.DOFillAmount(1 - (amount * 1f) / max, dashFillDuration)
-                .SetEase(Ease.InOutQuad);
+                .SetEase(Ease.InOutQuad)
+                .OnUpdate(() =>
+                {
+                    dashImage.color = Color.Lerp(bottomDashColor,topDashColor, dashImage.fillAmount);
+                });
         }
     }
 }

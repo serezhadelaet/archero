@@ -23,7 +23,7 @@ namespace Entities
             _winLoseOverlay = winLoseOverlay;
             movement.Init(joystick, navAgent, animations, dash);
             dash.Init(navAgent, joystick, gameOverlay);
-            attack.Init(animations, this, targetLayer, playerProgression);
+            attack.Init(animations, this, targetLayer, playerProgression, dash);
             SetupOverlay(gameOverlay);
             SetHealth();
             SetWeapon();
