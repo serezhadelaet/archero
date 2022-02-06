@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2311fb0debb4847b6d5687f0fe70e92, type: 3}
   m_Name: MeleeSettings
   m_EditorClassIdentifier: 
-  damage: 43
+  damage: 40
