@@ -16,6 +16,7 @@ namespace Levels
         [SerializeField] private CinemachineVirtualCamera followCamera;
         [SerializeField] private Player playerPrefab;
         [SerializeField] private NavMeshData navMeshData;
+        [SerializeField] private TransformSo followTr;
         
         private NavMeshDataInstance _navMeshInstance;
         private CharacterFactory _characterFactory;
@@ -50,8 +51,8 @@ namespace Levels
         {
             _player = 
                 _characterFactory.Create(playerPrefab, playerSpawnTr.position, playerSpawnTr.rotation, transform) as Player;
-            followCamera.Follow = _player.transform;
-            followCamera.LookAt = _player.transform;
+            followCamera.Follow = followTr.Tr;
+            followCamera.LookAt = followTr.Tr;
         }
     }
 }

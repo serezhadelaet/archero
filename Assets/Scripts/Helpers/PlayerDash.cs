@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Levels;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,6 +16,7 @@ namespace Helpers
         [SerializeField] private int dashMaxAmount = 3;
         [SerializeField] private EnemyTakeDamageEvent takeDamageEvent;
         [SerializeField] private DashPerformedEvent dashEvent;
+        [SerializeField] private NewWaveEventSo _newWaveEventSo;
         
         public bool IsDashing() => _dashTime > 0;
         
@@ -30,6 +32,7 @@ namespace Helpers
         private Joystick _joystick;
         private GameOverlay _gameOverlay;
         private RectTransform _joystickRect;
+        private LevelSettings.WaveSettings _waveSettings;
         
         private int DashCounter
         {
@@ -56,11 +59,19 @@ namespace Helpers
 
             takeDamageEvent.Event += ResetDashCounter;
             dashEvent.Event += TryDash;
+            _newWaveEventSo.Event += OnNewWave;
+        }
+
+        private void OnNewWave(LevelSettings.WaveSettings waveSettings)
+        {
+            _waveSettings = waveSettings;
         }
 
         private void OnDestroy()
         {
             takeDamageEvent.Event -= ResetDashCounter;
+            dashEvent.Event -= TryDash;
+            _newWaveEventSo.Event -= OnNewWave;
         }
 
         private void ResetDashCounter()
@@ -76,7 +87,7 @@ namespace Helpers
             if (_joystick.Direction == Vector2.zero)
             {
                 DashCounter++;
-                _dashDirection = (Input.mousePosition - _joystickRect.position).normalized;
+                _dashDirection = _waveSettings.GetCorrectJoystickDirection(Input.mousePosition - _joystickRect.position);
                 _dashTime = 1;
                 EnableTrail(true);
                 _canDash = false;

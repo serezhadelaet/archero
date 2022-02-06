@@ -17,11 +17,23 @@ MonoBehaviour:
     maxEnemiesOnWave: 5
     enemySpawnDelay: 0.5
     waveCooldown: 1
+    cameraRotY: 0
+    joystickReversedX: 0
+    joystickReversedY: 0
+    joystickSwapYX: 0
   - enemiesSettings: {fileID: 11400000, guid: 0b4675cefec1a564db4f30ed8dda6496, type: 2}
     maxEnemiesOnWave: 10
     enemySpawnDelay: 1
     waveCooldown: 0.5
+    cameraRotY: -90
+    joystickReversedX: 0
+    joystickReversedY: 1
+    joystickSwapYX: 1
   - enemiesSettings: {fileID: 11400000, guid: b97dc3866a6b475439ded34845de3e1f, type: 2}
     maxEnemiesOnWave: 10
     enemySpawnDelay: 1
     waveCooldown: 0.5
+    cameraRotY: 90
+    joystickReversedX: 1
+    joystickReversedY: 0
+    joystickSwapYX: 1

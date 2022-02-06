@@ -12,6 +12,7 @@ namespace Helpers
         [SerializeField] private float moveSpeedMod = 1;
         
         private static readonly int AttackBool = Animator.StringToHash("IsAttacking");
+        private static readonly int AttackMeleeBool = Animator.StringToHash("IsAttackingMelee");
         private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
         private static readonly int OnHit1 = Animator.StringToHash("OnHit1");
         private static readonly int OnHit2 = Animator.StringToHash("OnHit2");
@@ -35,6 +36,11 @@ namespace Helpers
         {
             animator.SetBool(AttackBool, f);
         }
+        
+        public void AttackMelee(bool f)
+        {
+            animator.SetBool(AttackMeleeBool, f);
+        }
 
         public void SetRunSpeed(float speed)
         {
@@ -53,6 +59,11 @@ namespace Helpers
         }
 
         public bool IsAttacking() =>
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") || animator.GetBool(AttackBool);
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+            || animator.GetBool(AttackBool);
+        
+        public bool IsAttackingMelee() => 
+            animator.GetCurrentAnimatorStateInfo(0).IsName("AttackMelee")
+            || animator.GetBool(AttackMeleeBool);
     }
 }

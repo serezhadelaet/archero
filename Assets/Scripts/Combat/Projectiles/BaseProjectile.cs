@@ -35,7 +35,7 @@ namespace Combat.Projectiles
             _pool.Return(this);
         }
 
-        public void Shoot(Vector3 dir, Vector3 targetPos)
+        public virtual void Shoot(Vector3 dir, Vector3 targetPos)
         {
             _direction = dir;
             movingDamager?.Init(dir, targetPos, TargetLayerMask, DoHit, Owner);

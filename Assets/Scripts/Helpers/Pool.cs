@@ -19,6 +19,8 @@ public abstract class Pool<T> : ScriptableObject, IPool<T> where T : Component, 
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
+        _list.Clear();
+        
         for (int i = 0; i < defaultAmount; i++)
         {
             var newItem = Instantiate(defaultItem);

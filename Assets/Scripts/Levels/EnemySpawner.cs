@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Entities;
 using UI;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Levels
     {
         [SerializeField] private Collider[] spawnColliders;
         [SerializeField] private Enemy enemyPrefab;
+        [SerializeField] private TransformSo followTransformSo;
+        [SerializeField] private NewWaveEventSo _waveEventSo;
 
         private LevelSettings _levelSettings;
         private CharacterFactory _characterFactory;
@@ -37,7 +40,7 @@ namespace Levels
             _characterFactory = characterFactory;
             _winLoseOverlay = winLoseOverlay;
 
-            _currentWave = _levelSettings.waves[_currentWaveIndex];
+            SetCurrentWave();
             EnemySpawnRoutine().Forget();
         }
 
@@ -62,12 +65,18 @@ namespace Levels
             if (CanSpawnNewWave())
             {
                 _currentWaveIndex++;
-                _currentWave = _levelSettings.waves[_currentWaveIndex];
+                SetCurrentWave();
                 _waveSpawnedEnemiesCount = 0;
                 return true;
             }
 
             return false;
+        }
+
+        private void SetCurrentWave()
+        {
+            _currentWave = _levelSettings.waves[_currentWaveIndex];
+            _waveEventSo.Invoke(_currentWave);
         }
 
         private bool ShouldSpawnEnemy()

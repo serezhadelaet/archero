@@ -12,7 +12,7 @@ namespace Combat.Projectiles.Factories
         public override BaseProjectile GetProjectile(int level, 
             BaseCharacter owner, float damage, LayerMask targetLayerMask)
         {
-            var projectile = GetDefaultProjectile(owner, damage, targetLayerMask);;
+            var projectile = GetDefaultProjectile(owner, damage, targetLayerMask);
             
             switch (level)
             {

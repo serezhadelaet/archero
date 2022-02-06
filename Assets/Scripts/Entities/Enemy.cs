@@ -1,5 +1,6 @@
 ﻿using Combat;
 using Helpers;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Entities
@@ -7,16 +8,22 @@ namespace Entities
     public class Enemy : BaseCharacter
     {
         [SerializeField] private PlayerProgressionFollower playerProgressionFollower;
-        [SerializeField] private float attackRange = 5;
+        [MinMaxSlider(0, 100)]
+        [SerializeField] private Vector2 attackRange;
         [SerializeField] private float followRange = 10;
         [SerializeField] private float stopDistance = 2;
         [SerializeField] private EnemyTakeDamageEvent takeDamageEvent;
+
+        private float _attackRange;
+        private float _stopDistance;
         
         public void Init(Player player, CombatEntitySettings combatEntitySettings)
         {
             combatSettings = combatEntitySettings;
             CurrentTarget = player;
-            navAgent.stoppingDistance = followRange - attackRange;
+            navAgent.stoppingDistance = stopDistance;
+            _attackRange = Random.Range(attackRange.x, attackRange.y);
+            _stopDistance = _attackRange - 1;
             animations.OnAttacked += Shoot;
             
             SetWeapon();
@@ -74,8 +81,8 @@ namespace Entities
             playerProgressionFollower.Progress();
         }
 
-        private bool ShouldStopMoving(float distance) => distance > followRange || distance < stopDistance;
-        private bool CanAttackPlayer(float distance) => distance < attackRange && navAgent.velocity.magnitude < 0.1f;
+        private bool ShouldStopMoving(float distance) => distance > followRange || distance < _stopDistance;
+        private bool CanAttackPlayer(float distance) => distance < _attackRange && navAgent.velocity.magnitude < 0.1f;
         protected override bool CanDamageMyself() => true;
     }
 }
