@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using Entities;
+using Entities.PlayerComponents;
 using Levels;
 using UnityEngine;
 

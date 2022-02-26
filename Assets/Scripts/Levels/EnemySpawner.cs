@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Entities;
+using Entities.PlayerComponents;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;

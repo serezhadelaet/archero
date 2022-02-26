@@ -1,6 +1,7 @@
 ﻿using System;
 using Cinemachine;
 using Entities;
+using Entities.PlayerComponents;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;

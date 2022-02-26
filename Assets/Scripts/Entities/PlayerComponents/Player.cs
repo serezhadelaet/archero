@@ -4,7 +4,7 @@ using UI;
 using UnityEngine;
 using Zenject;
 
-namespace Entities
+namespace Entities.PlayerComponents
 {
     public class Player : BaseCharacter
     {

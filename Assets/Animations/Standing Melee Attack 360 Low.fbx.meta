@@ -60,7 +60,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.39259258
-        functionName: OnAttackTriggered
+        functionName: OnAttackMeleeTriggered
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 2d813a18626743e7b51b79ad4d23c0d1, type: 3}
         floatParameter: 0

@@ -13,11 +13,12 @@ namespace Entities
         [SerializeField] private float followRange = 10;
         [SerializeField] private float stopDistance = 2;
         [SerializeField] private EnemyTakeDamageEvent takeDamageEvent;
+        [SerializeField] private CombatTargetingSo _combatTargeting;
 
         private float _attackRange;
         private float _stopDistance;
         
-        public void Init(Player player, CombatEntitySettings combatEntitySettings)
+        public void Init(PlayerComponents.Player player, CombatEntitySettings combatEntitySettings)
         {
             combatSettings = combatEntitySettings;
             CurrentTarget = player;
@@ -30,6 +31,7 @@ namespace Entities
             SetHealth();
             SetLevel();
             weapon.SetLevel(Level);
+            _combatTargeting.AddTarget(this);
         }
 
         protected override void Update()
@@ -65,7 +67,7 @@ namespace Entities
 
         private void TryToAttackPlayer(float distance)
         {
-            animations.Attack(CanAttackPlayer(distance));
+            animations.AttackRange(CanAttackPlayer(distance));
         }
 
         protected override bool ShouldFollowTarget() => animations.IsAttacking();
@@ -77,6 +79,7 @@ namespace Entities
 
         protected override void OnDead()
         {
+            _combatTargeting.RemoveTarget(this);
             base.OnDead();
             playerProgressionFollower.Progress();
         }

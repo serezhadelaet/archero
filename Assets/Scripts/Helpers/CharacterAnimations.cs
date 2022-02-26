@@ -20,7 +20,8 @@ namespace Helpers
         private static readonly int MoveSpeedMod = Animator.StringToHash("MoveSpeedMod");
         
         public event Action OnAttacked;
-
+        public event Action OnAttackedMelee;
+        
         private void OnEnable()
         {
             animator.SetFloat(AttackSpeed, attackSpeed);
@@ -32,7 +33,7 @@ namespace Helpers
             animator = GetComponent<Animator>();
         }
 
-        public void Attack(bool f)
+        public void AttackRange(bool f)
         {
             animator.SetBool(AttackBool, f);
         }
@@ -56,6 +57,11 @@ namespace Helpers
         public void OnAttackTriggered()
         {
             OnAttacked?.Invoke();
+        }
+        
+        public void OnAttackMeleeTriggered()
+        {
+            OnAttackedMelee?.Invoke();
         }
 
         public bool IsAttacking() =>

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 158418315296699448}
   - component: {fileID: 5315261414927262626}
   - component: {fileID: 5993186701474520182}
-  - component: {fileID: 9164891380452271828}
+  - component: {fileID: 8057667147823853663}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MonoBehaviour:
   healingEffect: {fileID: 3570527978562735811}
   playerProgression: {fileID: 11400000, guid: ce42a41c7d0efda439b9258363db2a06, type: 2}
   movement: {fileID: 5315261414927262626}
-  attack: {fileID: 9164891380452271828}
+  attack: {fileID: 8057667147823853663}
   dash: {fileID: 5993186701474520182}
 --- !u!195 &158418315296699448
 NavMeshAgent:
@@ -210,7 +210,7 @@ MonoBehaviour:
   takeDamageEvent: {fileID: 11400000, guid: 097049e3937e59349b5e5d14560edff2, type: 2}
   dashEvent: {fileID: 11400000, guid: 03cbc380bb6ce2146808edef0a6e8001, type: 2}
   _newWaveEventSo: {fileID: 11400000, guid: 61a76e2c905e06e4cb806beee171d3b7, type: 2}
---- !u!114 &9164891380452271828
+--- !u!114 &8057667147823853663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,20 +219,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4669317927337110740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40a56afd04bf4928981a396c8c31e15a, type: 3}
+  m_Script: {fileID: 11500000, guid: 02d420e367e553e4580161dab53b9972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rangeTr: {fileID: 3548959854574746696}
   meleeTr: {fileID: 3540479473260162066}
   rangeDisarmedTr: {fileID: 6917817964497306464}
   meleeDisarmedTr: {fileID: 3154744024556663705}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 512
   attackRange: 10
-  meleeRange: 3
+  meleeRange: 2
   _meleeWeapon: {fileID: 479207674873726438}
   _meleeWeaponSettings: {fileID: 11400000, guid: ba0f6718446179a42a15d04c359664e3, type: 2}
+  _combatTargeting: {fileID: 11400000, guid: f3276e852dda02a42b3fb6426b7b7721, type: 2}
 --- !u!1 &5920053091451276508
 GameObject:
   m_ObjectHideFlags: 0

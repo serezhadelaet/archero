@@ -67,6 +67,7 @@ MonoBehaviour:
   followRange: 100
   stopDistance: 5
   takeDamageEvent: {fileID: 11400000, guid: 097049e3937e59349b5e5d14560edff2, type: 2}
+  _combatTargeting: {fileID: 11400000, guid: f3276e852dda02a42b3fb6426b7b7721, type: 2}
 --- !u!195 &5483035119359666743
 NavMeshAgent:
   m_ObjectHideFlags: 0
